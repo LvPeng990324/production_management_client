@@ -1,409 +1,261 @@
 <script lang="ts" setup>
-import type { TableResponseData } from "@@/apis/tables/type"
-import type { ElMessageBoxOptions } from "element-plus"
-import type { VxeFormInstance, VxeFormProps, VxeGridInstance, VxeGridProps, VxeModalInstance, VxeModalProps } from "vxe-table"
+import type { TableData } from "@@/apis/orders/type"
+import type { FormInstance, FormRules } from "element-plus"
 import { createOrderDataApi, deleteOrderDataApi, getOrderDataApi, updateOrderDataApi } from "@@/apis/orders"
-import { OrderStatusColumnSlots } from "./tsx/OrderStatusColumnSlots"
+import { usePagination } from "@@/composables/usePagination"
+import { CirclePlus, Delete, Download, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
+import { cloneDeep } from "lodash-es"
 
 defineOptions({
   // 命名当前组件
-  name: "VxeTable"
+  name: "ElementPlus"
 })
 
-// #region vxe-grid
-interface RowMeta {
-  id: number
-  order_num: string
-  order_status: string
-  order_start_time: string
-  /** vxe-table 自动添加上去的属性 */
-  _VXE_ID?: string
+const loading = ref<boolean>(false)
+const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
+
+// #region 增
+const DEFAULT_FORM_DATA: TableData = {
+  id: 0,
+  order_num: "",
+  order_status: 0,
+  order_start_time: ""
 }
-const xGridDom = ref<VxeGridInstance>()
-const xGridOpt: VxeGridProps = reactive({
-  loading: true,
-  autoResize: true,
-  /** 分页配置项 */
-  pagerConfig: {
-    align: "right"
-  },
-  /** 表单配置项 */
-  formConfig: {
-    items: [
-      {
-        field: "order_num",
-        itemRender: {
-          name: "$input",
-          props: {
-            placeholder: "订单号",
-            clearable: true
-          }
-        }
-      },
-      {
-        itemRender: {
-          name: "$buttons",
-          children: [
-            {
-              props: {
-                type: "submit",
-                content: "查询",
-                status: "primary"
-              }
-            },
-            {
-              props: {
-                type: "reset",
-                content: "重置"
-              }
-            }
-          ]
-        }
-      }
-    ]
-  },
-  /** 工具栏配置 */
-  toolbarConfig: {
-    refresh: true,
-    custom: true,
-    slots: {
-      buttons: "toolbar-btns"
+const dialogVisible = ref<boolean>(false)
+const formRef = ref<FormInstance | null>(null)
+const formData = ref<TableData>(cloneDeep(DEFAULT_FORM_DATA))
+const formRules: FormRules<TableData> = {
+  // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
+  // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
+}
+function handleCreateOrUpdate() {
+  formRef.value?.validate((valid) => {
+    if (!valid) {
+      ElMessage.error("表单校验不通过")
+      return
     }
-  },
-  /** 自定义列配置项 */
-  customConfig: {
-    /** 是否允许列选中  */
-    checkMethod: ({ column }) => !["username"].includes(column.field)
-  },
-  /** 列配置 */
-  columns: [
-    {
-      type: "checkbox",
-      width: "50px"
-    },
-    {
-      field: "order_num",
-      title: "订单号"
-    },
-    {
-      field: "order_status",
-      title: "状态",
-      slots: OrderStatusColumnSlots
-    },
-    {
-      field: "order_start_time",
-      title: "开始时间"
-    },
-    {
-      title: "操作",
-      width: "150px",
-      fixed: "right",
-      showOverflow: false,
-      slots: {
-        default: "row-operate"
-      }
-    }
-  ],
-  /** 数据代理配置项（基于 Promise API） */
-  proxyConfig: {
-    /** 启用动态序号代理 */
-    seq: true,
-    /** 是否代理表单 */
-    form: true,
-    /** 是否自动加载，默认为 true */
-    autoLoad: true,
-    props: {
-      total: "total"
-    },
-    ajax: {
-      query: ({ page, form }) => {
-        xGridOpt.loading = true
-        crudStore.clearTable()
-        return new Promise((resolve) => {
-          let total = 0
-          let result: RowMeta[] = []
-          // 加载数据
-          const callback = (res: TableResponseData) => {
-            if (res?.data) {
-              // 总数
-              total = res.data.total
-              // 列表数据
-              result = res.data.list
-            }
-            xGridOpt.loading = false
-            // 返回值有格式要求，详情见 vxe-table 官方文档
-            resolve({ total, result })
-          }
-          // 接口需要的参数
-          const params = {
-            order_num: form.order_num || "",
-            order_status: form.order_status || "",
-            size: page.pageSize,
-            currentPage: page.currentPage
-          }
-          // 调用接口
-          getOrderDataApi(params).then(callback).catch(callback)
-        })
-      }
-    }
-  }
-})
+    loading.value = true
+    const api = formData.value.id === undefined ? createOrderDataApi : updateOrderDataApi
+    api(formData.value).then(() => {
+      ElMessage.success("操作成功")
+      dialogVisible.value = false
+      getTableData()
+    }).finally(() => {
+      loading.value = false
+    })
+  })
+}
+function resetForm() {
+  formRef.value?.clearValidate()
+  formData.value = cloneDeep(DEFAULT_FORM_DATA)
+}
 // #endregion
 
-// #region vxe-modal
-const xModalDom = ref<VxeModalInstance>()
-const xModalOpt: VxeModalProps = reactive({
-  title: "",
-  showClose: true,
-  escClosable: true,
-  maskClosable: true,
-  beforeHideMethod: () => {
-    xFormDom.value?.clearValidate()
-    return Promise.resolve()
-  }
-})
+// #region 删
+function handleDelete(row: TableData) {
+  ElMessageBox.confirm(`正在删除用户：${row.order_num}，确认删除？`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(() => {
+    deleteOrderDataApi(row.id).then(() => {
+      ElMessage.success("删除成功")
+      getTableData()
+    })
+  })
+}
 // #endregion
 
-// #region vxe-form
-const xFormDom = ref<VxeFormInstance>()
-const xFormOpt: VxeFormProps = reactive({
-  span: 24,
-  titleWidth: "100px",
-  loading: false,
-  /** 是否显示标题冒号 */
-  titleColon: false,
-  /** 表单数据 */
-  data: {
-    id: "",
-    order_num: "",
-    order_status: "",
-    order_start_time: ""
-  },
-  /** 项列表 */
-  items: [
-    {
-      field: "order_num",
-      title: "订单号",
-      itemRender: {
-        name: "$input",
-        props: {
-          placeholder: "请输入"
-        }
-      }
-    },
-    {
-      field: "order_status",
-      title: "订单状态",
-      itemRender: {
-        name: "$select",
-        props: {
-          placeholder: "请选择"
-        },
-        options: [ // TODO 改成从接口获取
-          { value: 1, label: "待启动" },
-          { value: 2, label: "制作中" },
-          { value: 3, label: "已完成" }
-        ]
-      }
-    },
-    {
-      field: "order_start_time",
-      title: "开始时间",
-      itemRender: {
-        name: "$input",
-        props: {
-          type: "datetime",
-          placeholder: "请选择时间"
-        },
-      }
-    },
-    {
-      align: "right",
-      itemRender: {
-        name: "$buttons",
-        children: [
-          {
-            props: {
-              content: "取消"
-            },
-            events: {
-              click: () => xModalDom.value?.close()
-            }
-          },
-          {
-            props: {
-              type: "submit",
-              content: "确定",
-              status: "primary"
-            },
-            events: {
-              click: () => crudStore.onSubmitForm()
-            }
-          }
-        ]
-      }
-    }
-  ],
-  /** 校验规则 */
-  rules: {
-    // order_num: [
-    //   {
-    //     required: true,
-    //     validator: ({ itemValue }) => {
-    //       switch (true) {
-    //         case !itemValue:
-    //           return new Error("请输入")
-    //         case !itemValue.trim():
-    //           return new Error("空格无效")
-    //       }
-    //     }
-    //   }
-    // ],
-  }
-})
+// #region 改
+function handleUpdate(row: TableData) {
+  dialogVisible.value = true
+  formData.value = cloneDeep(row)
+  console.log("row", row)
+  console.log("formData", formData)
+}
 // #endregion
 
-// #region 增删改查
-const crudStore = reactive({
-  /** 表单类型，true 表示修改，false 表示新增 */
-  isUpdate: true,
-  /** 加载表格数据 */
-  commitQuery: () => xGridDom.value?.commitProxy("query"),
-  /** 清空表格数据 */
-  clearTable: () => xGridDom.value?.reloadData([]),
-  /** 点击显示弹窗 */
-  onShowModal: (row?: RowMeta) => {
-    if (row) {
-      crudStore.isUpdate = true
-      xModalOpt.title = "修改"
-      // 赋值
-      xFormOpt.data.order_id = row.id
-      xFormOpt.data.order_num = row.order_num
-      xFormOpt.data.order_status = row.order_status
-      xFormOpt.data.order_start_time = row.order_start_time
-    } else {
-      crudStore.isUpdate = false
-      xModalOpt.title = "新增"
-    }
-    // 禁用表单项
-    const props = xFormOpt.items?.[0]?.itemRender?.props
-    props && (props.disabled = crudStore.isUpdate)
-    xModalDom.value?.open()
-    nextTick(() => {
-      !crudStore.isUpdate && xFormDom.value?.reset()
-      xFormDom.value?.clearValidate()
-    })
-  },
-  /** 确定并保存 */
-  onSubmitForm: () => {
-    if (xFormOpt.loading) return
-    xFormDom.value?.validate((errMap) => {
-      if (errMap) return
-      xFormOpt.loading = true
-      const callback = () => {
-        xFormOpt.loading = false
-        xModalDom.value?.close()
-        ElMessage.success("操作成功")
-        !crudStore.isUpdate && crudStore.afterInsert()
-        crudStore.commitQuery()
-      }
-      if (crudStore.isUpdate) {
-        // 调用修改接口
-        const params = {
-          order_id: xFormOpt.data.order_id,
-          order_num: xFormOpt.data.order_num,
-          order_status: xFormOpt.data.order_status,
-          order_start_time: xFormOpt.data.order_start_time
-        }
-        updateOrderDataApi(params).then(callback).catch(callback)
-      } else {
-        // 调用新增接口
-        const params = {
-          order_num: xFormOpt.data.order_num,
-          order_status: xFormOpt.data.order_status,
-          order_start_time: xFormOpt.data.order_start_time
-        }
-        createOrderDataApi(params).then(callback).catch(callback)
-      }
-    })
-  },
-  /** 新增后是否跳入最后一页 */
-  afterInsert: () => {
-    const pager = xGridDom.value?.getProxyInfo()?.pager
-    if (pager) {
-      const currentTotal = pager.currentPage * pager.pageSize
-      if (currentTotal === pager.total) {
-        ++pager.currentPage
-      }
-    }
-  },
-  /** 删除 */
-  onDelete: (row: RowMeta) => {
-    const tip = `确定 <strong style="color: var(--el-color-danger);"> 删除 </strong> 订单 <strong style="color: var(--el-color-primary);"> ${row.order_num} </strong> ？`
-    const config: ElMessageBoxOptions = {
-      type: "warning",
-      showClose: true,
-      closeOnClickModal: true,
-      closeOnPressEscape: true,
-      cancelButtonText: "取消",
-      confirmButtonText: "确定",
-      dangerouslyUseHTMLString: true
-    }
-    ElMessageBox.confirm(tip, "提示", config).then(() => {
-      deleteOrderDataApi({order_id: row.id}).then(() => {
-        ElMessage.success("删除成功")
-        crudStore.afterDelete()
-        crudStore.commitQuery()
-      })
-    })
-  },
-  /** 删除后是否返回上一页 */
-  afterDelete: () => {
-    const tableData: RowMeta[] = xGridDom.value!.getData()
-    const pager = xGridDom.value?.getProxyInfo()?.pager
-    if (pager && pager.currentPage > 1 && tableData.length === 1) {
-      --pager.currentPage
-    }
-  },
-  /** TODO 获取订单状态选项 */
-  getOrderStatusList: () => {
-    return [
-      { value: 1, label: "待处理" }
-    ]
-  },
-  /** 更多自定义方法 */
-  moreFn: () => {}
+// #region 查
+const tableData = ref<TableData[]>([])
+const searchFormRef = ref<FormInstance | null>(null)
+const searchData = reactive({
+  username: "",
+  phone: ""
 })
+function getTableData() {
+  loading.value = true
+  getOrderDataApi({
+    currentPage: paginationData.currentPage,
+    size: paginationData.pageSize
+  }).then(({ data }) => {
+    paginationData.total = data.total
+    tableData.value = data.list
+  }).catch(() => {
+    tableData.value = []
+  }).finally(() => {
+    loading.value = false
+  })
+}
+function handleSearch() {
+  paginationData.currentPage === 1 ? getTableData() : (paginationData.currentPage = 1)
+}
+function resetSearch() {
+  searchFormRef.value?.resetFields()
+  handleSearch()
+}
 // #endregion
+
+// 监听分页参数的变化
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
 
 <template>
   <div class="app-container">
-    <!-- 表格 -->
-    <vxe-grid ref="xGridDom" v-bind="xGridOpt">
-      <!-- 左侧按钮列表 -->
-      <template #toolbar-btns>
-        <vxe-button status="primary" icon="vxe-icon-add" @click="crudStore.onShowModal()">
-          新增
-        </vxe-button>
-        <vxe-button status="danger" icon="vxe-icon-delete">
-          批量删除
-        </vxe-button>
-      </template>
-      <!-- 操作 -->
-      <template #row-operate="{ row }">
-        <el-button link type="primary" @click="crudStore.onShowModal(row)">
-          修改
+    <el-card v-loading="loading" shadow="never" class="search-wrapper">
+      <el-form ref="searchFormRef" :inline="true" :model="searchData">
+        <el-form-item prop="username" label="用户名">
+          <el-input v-model="searchData.username" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="phone" label="手机号">
+          <el-input v-model="searchData.phone" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" :icon="Search" @click="handleSearch">
+            查询
+          </el-button>
+          <el-button :icon="Refresh" @click="resetSearch">
+            重置
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+    <el-card v-loading="loading" shadow="never">
+      <div class="toolbar-wrapper">
+        <div>
+          <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true">
+            新增用户
+          </el-button>
+          <el-button type="danger" :icon="Delete">
+            批量删除
+          </el-button>
+        </div>
+        <div>
+          <el-tooltip content="下载">
+            <el-button type="primary" :icon="Download" circle />
+          </el-tooltip>
+          <el-tooltip content="刷新当前页">
+            <el-button type="primary" :icon="RefreshRight" circle @click="getTableData" />
+          </el-tooltip>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <el-table :data="tableData">
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column prop="order_num" label="订单号" align="center" />
+          <el-table-column prop="status" label="状态" align="center">
+            <template #default="scope">
+              <el-tag v-if="scope.row.order_status === 1" type="info" effect="plain" disable-transitions>
+                待启动
+              </el-tag>
+              <el-tag v-else-if="scope.row.status === 2" type="warning" effect="plain" disable-transitions>
+                制作中
+              </el-tag>
+              <el-tag v-else-if="scope.row.status === 3" type="success" effect="plain" disable-transitions>
+                已完成
+              </el-tag>
+              <el-tag v-else type="danger" effect="plain" disable-transitions>
+                未知
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="order_start_time" label="开始时间" align="center" />
+          <el-table-column fixed="right" label="操作" width="150" align="center">
+            <template #default="scope">
+              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
+                修改
+              </el-button>
+              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">
+                删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="pager-wrapper">
+        <el-pagination
+          background
+          :layout="paginationData.layout"
+          :page-sizes="paginationData.pageSizes"
+          :total="paginationData.total"
+          :page-size="paginationData.pageSize"
+          :current-page="paginationData.currentPage"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+    </el-card>
+    <!-- 新增/修改 -->
+    <el-dialog
+      v-model="dialogVisible"
+      :title="formData.id === undefined ? '新增订单' : '修改订单'"
+      width="30%"
+      @closed="resetForm"
+    >
+      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
+        <el-form-item prop="order_num" label="订单号">
+          <el-input v-model="formData.order_num" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="order_status" label="订单状态">
+          <el-select v-model="formData.order_status" placeholder="请选择">
+            <el-option value="1" label="待启动" />
+            <el-option value="2" label="制作中" />
+            <el-option value="3" label="已完成" />
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="order_start_time" label="开始时间">
+          <el-date-picker
+            v-model="formData.order_start_time"
+            type="datetime"
+            placeholder="Select date and time"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="dialogVisible = false">
+          取消
         </el-button>
-        <el-button link type="danger" @click="crudStore.onDelete(row)">
-          删除
+        <el-button type="primary" :loading="loading" @click="handleCreateOrUpdate">
+          确认
         </el-button>
       </template>
-    </vxe-grid>
-    <!-- 弹窗 -->
-    <vxe-modal ref="xModalDom" v-bind="xModalOpt">
-      <!-- 表单 -->
-      <vxe-form ref="xFormDom" v-bind="xFormOpt" />
-    </vxe-modal>
+    </el-dialog>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.el-alert {
+  margin-bottom: 20px;
+}
+
+.search-wrapper {
+  margin-bottom: 20px;
+  :deep(.el-card__body) {
+    padding-bottom: 2px;
+  }
+}
+
+.toolbar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.table-wrapper {
+  margin-bottom: 20px;
+}
+
+.pager-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

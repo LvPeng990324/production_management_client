@@ -157,14 +157,19 @@ export const constantRoutes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: "/",
+    path: "/order",
     component: Layouts,
-    redirect: "/dashboard",
+    redirect: "/order",
+    name: "Order",
+    meta: {
+      title: "订单",
+      svgIcon: "order"
+    },
     children: [
       {
-        path: "dashboard",
+        path: "order-list",
         component: () => import("@/pages/order/index.vue"),
-        name: "Dashboard",
+        name: "OrderList",
         meta: {
           title: "订单",
           svgIcon: "order",
@@ -172,7 +177,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
-  },
+  }
 ]
 
 /**

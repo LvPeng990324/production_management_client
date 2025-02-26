@@ -11,11 +11,13 @@ export function createOrderDataApi(data: Tables.CreateOrUpdateTableRequestData) 
 }
 
 /** 删 */
-export function deleteOrderDataApi(data: Tables.DeleteOrderRequestDate) {
+export function deleteOrderDataApi(order_id: number) {
   return request({
     url: `order/delete-order/`,
     method: "post",
-    data
+    data: {
+      order_id
+    }
   })
 }
 
