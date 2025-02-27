@@ -16,7 +16,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 
 // #region 增
 const DEFAULT_FORM_DATA: TableData = {
-  id: 0,
+  order_id: 0,
   order_num: "",
   order_status: 0,
   order_start_time: ""
@@ -35,7 +35,8 @@ function handleCreateOrUpdate() {
       return
     }
     loading.value = true
-    const api = formData.value.id === undefined ? createOrderDataApi : updateOrderDataApi
+    const api = formData.value.order_id === 0 ? createOrderDataApi : updateOrderDataApi
+    console.log('新增/编辑时候数据', formData.value)
     api(formData.value).then(() => {
       ElMessage.success("操作成功")
       dialogVisible.value = false
@@ -53,12 +54,12 @@ function resetForm() {
 
 // #region 删
 function handleDelete(row: TableData) {
-  ElMessageBox.confirm(`正在删除用户：${row.order_num}，确认删除？`, "提示", {
+  ElMessageBox.confirm(`正在删除订单：${row.order_num}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    deleteOrderDataApi(row.id).then(() => {
+    deleteOrderDataApi(row.order_id).then(() => {
       ElMessage.success("删除成功")
       getTableData()
     })
@@ -70,8 +71,6 @@ function handleDelete(row: TableData) {
 function handleUpdate(row: TableData) {
   dialogVisible.value = true
   formData.value = cloneDeep(row)
-  console.log("row", row)
-  console.log("formData", formData)
 }
 // #endregion
 
@@ -132,8 +131,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true">
-            新增用户
+          <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true;formData.order_id = 0">
+            新增
           </el-button>
           <el-button type="danger" :icon="Delete">
             批量删除
@@ -157,10 +156,10 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               <el-tag v-if="scope.row.order_status === 1" type="info" effect="plain" disable-transitions>
                 待启动
               </el-tag>
-              <el-tag v-else-if="scope.row.status === 2" type="warning" effect="plain" disable-transitions>
+              <el-tag v-else-if="scope.row.order_status === 2" type="warning" effect="plain" disable-transitions>
                 制作中
               </el-tag>
-              <el-tag v-else-if="scope.row.status === 3" type="success" effect="plain" disable-transitions>
+              <el-tag v-else-if="scope.row.order_status === 3" type="success" effect="plain" disable-transitions>
                 已完成
               </el-tag>
               <el-tag v-else type="danger" effect="plain" disable-transitions>
@@ -197,8 +196,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <!-- 新增/修改 -->
     <el-dialog
       v-model="dialogVisible"
-      :title="formData.id === undefined ? '新增订单' : '修改订单'"
-      width="30%"
+      :title="formData.order_id === 0 ? '新增订单' : '修改订单'"
+      width="50%"
       @closed="resetForm"
     >
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
@@ -217,6 +216,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             v-model="formData.order_start_time"
             type="datetime"
             placeholder="Select date and time"
+            format="YYYY-MM-DD hh:mm:ss"
+            value-format="YYYY-MM-DD hh:mm:ss"
           />
         </el-form-item>
       </el-form>

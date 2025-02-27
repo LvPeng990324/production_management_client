@@ -22,7 +22,7 @@ export function deleteOrderDataApi(order_id: number) {
 }
 
 /** 改 */
-export function updateOrderDataApi(data: Tables.CreateOrUpdateTableRequestData) {
+export function updateOrderDataApi(data: Tables.TableData) {
   return request({
     url: "order/edit-order/",
     method: "post",

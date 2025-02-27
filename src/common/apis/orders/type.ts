@@ -12,7 +12,7 @@ export interface TableRequestData {
 }
 
 export interface TableData {
-  id: number,
+  order_id: number,
   order_num: string,
   order_status: number,
   order_start_time: string,
