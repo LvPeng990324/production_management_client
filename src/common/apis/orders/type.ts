@@ -9,6 +9,7 @@ export interface TableRequestData {
   currentPage: number
   /** 查询条数 */
   size: number
+  order_num: string
 }
 
 export interface TableData {

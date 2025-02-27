@@ -78,14 +78,14 @@ function handleUpdate(row: TableData) {
 const tableData = ref<TableData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
-  username: "",
-  phone: ""
+  order_id: ""
 })
 function getTableData() {
   loading.value = true
   getOrderDataApi({
     currentPage: paginationData.currentPage,
-    size: paginationData.pageSize
+    size: paginationData.pageSize,
+    order_num: searchData.order_id,
   }).then(({ data }) => {
     paginationData.total = data.total
     tableData.value = data.list
@@ -112,11 +112,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   <div class="app-container">
     <el-card v-loading="loading" shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="username" label="用户名">
-          <el-input v-model="searchData.username" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="phone" label="手机号">
-          <el-input v-model="searchData.phone" placeholder="请输入" />
+        <el-form-item prop="order_id" label="订单号">
+          <el-input v-model="searchData.order_id" placeholder="请输入" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">
