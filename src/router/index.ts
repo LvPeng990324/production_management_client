@@ -177,6 +177,28 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/supplier",
+    component: Layouts,
+    redirect: "/supplier",
+    name: "Supplier",
+    meta: {
+      title: "供应商",
+      svgIcon: "supplier"
+    },
+    children: [
+      {
+        path: "supplier-list",
+        component: () => import("@/pages/supplier/index.vue"),
+        name: "SupplierList",
+        meta: {
+          title: "供应商",
+          svgIcon: "supplier",
+          affix: true
+        }
+      }
+    ]
   }
 ]
 
