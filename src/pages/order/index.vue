@@ -36,7 +36,7 @@ function handleCreateOrUpdate() {
     }
     loading.value = true
     const api = formData.value.order_id === 0 ? createOrderDataApi : updateOrderDataApi
-    console.log('新增/编辑时候数据', formData.value)
+    console.log("新增/编辑时候数据", formData.value)
     api(formData.value).then(() => {
       ElMessage.success("操作成功")
       dialogVisible.value = false
@@ -85,7 +85,7 @@ function getTableData() {
   getOrderDataApi({
     currentPage: paginationData.currentPage,
     size: paginationData.pageSize,
-    order_num: searchData.order_id,
+    order_num: searchData.order_id
   }).then(({ data }) => {
     paginationData.total = data.total
     tableData.value = data.list
@@ -203,9 +203,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="order_status" label="订单状态">
           <el-select v-model="formData.order_status" placeholder="请选择">
-            <el-option value="1" label="待启动" />
-            <el-option value="2" label="制作中" />
-            <el-option value="3" label="已完成" />
+            <el-option :value="1" label="待启动" />
+            <el-option :value="2" label="制作中" />
+            <el-option :value="3" label="已完成" />
           </el-select>
         </el-form-item>
         <el-form-item prop="order_start_time" label="开始时间">
