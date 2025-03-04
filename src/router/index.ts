@@ -199,6 +199,28 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/item",
+    component: Layouts,
+    redirect: "/item",
+    name: "Item",
+    meta: {
+      title: "物品",
+      svgIcon: "item"
+    },
+    children: [
+      {
+        path: "item-list",
+        component: () => import("@/pages/item/index.vue"),
+        name: "ItemList",
+        meta: {
+          title: "物品",
+          svgIcon: "item",
+          affix: true
+        }
+      }
+    ]
   }
 ]
 
