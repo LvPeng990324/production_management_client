@@ -221,6 +221,28 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/technical-change",
+    component: Layouts,
+    redirect: "/technical-change",
+    name: "TechnicalChange",
+    meta: {
+      title: "技术变更",
+      svgIcon: "technical_change"
+    },
+    children: [
+      {
+        path: "item-list",
+        component: () => import("@/pages/technical_change/index.vue"),
+        name: "TechnicalList",
+        meta: {
+          title: "技术变更",
+          svgIcon: "technical_change",
+          affix: true
+        }
+      }
+    ]
   }
 ]
 
