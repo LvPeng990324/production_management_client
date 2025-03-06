@@ -49,20 +49,14 @@ function handleLogin() {
     }
     loading.value = true
     loginApi(loginFormData).then(({ data }) => {
-      console.log('取到的数据', data)
       userStore.setToken(data.token)
       router.push("/")
-      console.log('aaaaaaaaaaaa')
     }).catch(() => {
       loginFormData.password = ""
-      console.log('bbbbbbbbbbbbbbb')
     }).finally(() => {
       loading.value = false
-      console.log('cccccccccccccc')
     })
   })
-
-  console.log('1111111111')
 }
 </script>
 

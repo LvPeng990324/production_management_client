@@ -34,7 +34,6 @@ function handleCreateOrUpdate() {
     }
     loading.value = true
     const api = formData.value.item_id === 0 ? createItemDataApi : updateItemDataApi
-    console.log("新增/编辑时候数据", formData.value)
     api(formData.value).then(() => {
       ElMessage.success("操作成功")
       dialogVisible.value = false
