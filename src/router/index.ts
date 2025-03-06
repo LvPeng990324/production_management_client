@@ -243,6 +243,28 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/inspection-code",
+    component: Layouts,
+    redirect: "/inspection-code",
+    name: "InspectionCode",
+    meta: {
+      title: "检验代码",
+      svgIcon: "technical_change"
+    },
+    children: [
+      {
+        path: "inspection-code-list",
+        component: () => import("@/pages/inspection_code/index.vue"),
+        name: "TechnicInspectionCodealList",
+        meta: {
+          title: "检验代码",
+          svgIcon: "technical_change",
+          affix: true
+        }
+      }
+    ]
   }
 ]
 
