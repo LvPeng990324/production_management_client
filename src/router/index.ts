@@ -251,7 +251,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "InspectionCode",
     meta: {
       title: "检验代码",
-      svgIcon: "technical_change"
+      svgIcon: "inspection_code"
     },
     children: [
       {
@@ -260,7 +260,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "TechnicInspectionCodealList",
         meta: {
           title: "检验代码",
-          svgIcon: "technical_change",
+          svgIcon: "inspection_code",
           affix: true
         }
       }

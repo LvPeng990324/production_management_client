@@ -7,20 +7,20 @@
 declare module '~virtual/svg-component' {
   const SvgIcon: import("vue").DefineComponent<{
       name: {
-          type: import("vue").PropType<"dashboard" | "fullscreen-exit" | "fullscreen" | "item" | "keyboard-down" | "keyboard-enter" | "keyboard-esc" | "keyboard-up" | "order" | "search" | "supplier" | "technical_change">;
+          type: import("vue").PropType<"dashboard" | "fullscreen-exit" | "fullscreen" | "inspection_code" | "item" | "keyboard-down" | "keyboard-enter" | "keyboard-esc" | "keyboard-up" | "order" | "search" | "supplier" | "technical_change">;
           default: string;
           required: true;
       };
   }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
       name: {
-          type: import("vue").PropType<"dashboard" | "fullscreen-exit" | "fullscreen" | "item" | "keyboard-down" | "keyboard-enter" | "keyboard-esc" | "keyboard-up" | "order" | "search" | "supplier" | "technical_change">;
+          type: import("vue").PropType<"dashboard" | "fullscreen-exit" | "fullscreen" | "inspection_code" | "item" | "keyboard-down" | "keyboard-enter" | "keyboard-esc" | "keyboard-up" | "order" | "search" | "supplier" | "technical_change">;
           default: string;
           required: true;
       };
   }>>, {
-      name: "dashboard" | "fullscreen-exit" | "fullscreen" | "item" | "keyboard-down" | "keyboard-enter" | "keyboard-esc" | "keyboard-up" | "order" | "search" | "supplier" | "technical_change";
+      name: "dashboard" | "fullscreen-exit" | "fullscreen" | "inspection_code" | "item" | "keyboard-down" | "keyboard-enter" | "keyboard-esc" | "keyboard-up" | "order" | "search" | "supplier" | "technical_change";
   }>;
-  export const svgNames: ["dashboard", "fullscreen-exit", "fullscreen", "item", "keyboard-down", "keyboard-enter", "keyboard-esc", "keyboard-up", "order", "search", "supplier", "technical_change"];
-  export type SvgName = "dashboard" | "fullscreen-exit" | "fullscreen" | "item" | "keyboard-down" | "keyboard-enter" | "keyboard-esc" | "keyboard-up" | "order" | "search" | "supplier" | "technical_change";
+  export const svgNames: ["dashboard", "fullscreen-exit", "fullscreen", "inspection_code", "item", "keyboard-down", "keyboard-enter", "keyboard-esc", "keyboard-up", "order", "search", "supplier", "technical_change"];
+  export type SvgName = "dashboard" | "fullscreen-exit" | "fullscreen" | "inspection_code" | "item" | "keyboard-down" | "keyboard-enter" | "keyboard-esc" | "keyboard-up" | "order" | "search" | "supplier" | "technical_change";
   export default SvgIcon;
 }

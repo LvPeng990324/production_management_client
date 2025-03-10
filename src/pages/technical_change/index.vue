@@ -125,7 +125,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true;formData.item_id = 0">
+          <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true;formData.technical_change_id = 0">
             新增
           </el-button>
           <el-button type="danger" :icon="Delete">
