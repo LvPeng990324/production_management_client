@@ -1,7 +1,7 @@
 type OptionValue = string | number
 
 /** Select 需要的数据格式 */
-interface SelectOption {
+export interface SelectOption {
   value: OptionValue
   label: string
   disabled?: boolean

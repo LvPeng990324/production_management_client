@@ -22,7 +22,7 @@ export function deleteItemDataApi(item_id: number) {
 }
 
 /** 改 */
-export function updateItemDataApi(data: Tables.ItemTableData) {
+export function updateItemDataApi(data: Tables.CreateOrUpdateItemTableRequestData) {
   return request({
     url: "item/edit-item/",
     method: "post",

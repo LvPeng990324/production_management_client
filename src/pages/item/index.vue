@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import type { ItemTableData } from "@@/apis/items/type"
+import type { CreateOrUpdateItemTableRequestData, ItemTableData } from "@@/apis/items/type"
 import type { FormInstance, FormRules } from "element-plus"
+import { get_item_select_option_list } from "@/common/apis/items/fetch_select_options"
+import { get_order_select_option_list } from "@/common/apis/orders/fetch_select_options"
 import { createItemDataApi, deleteItemDataApi, getItemDataApi, updateItemDataApi } from "@@/apis/items"
+import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
 import { CirclePlus, Delete, Download, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
 import { cloneDeep } from "lodash-es"
@@ -11,18 +14,27 @@ defineOptions({
   name: "ElementPlus"
 })
 
+const { options: order_options } = useFetchSelect({
+  api: get_order_select_option_list
+})
+const { options: item_options } = useFetchSelect({
+  api: get_item_select_option_list
+})
+
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 // #region 增
-const DEFAULT_FORM_DATA: ItemTableData = {
+const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   item_id: 0,
-  name: ""
+  name: "",
+  order_id: 0,
+  parent_item_id: 0
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formData = ref<ItemTableData>(cloneDeep(DEFAULT_FORM_DATA))
-const formRules: FormRules<ItemTableData> = {
+const formData = ref<CreateOrUpdateItemTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
+const formRules: FormRules<CreateOrUpdateItemTableRequestData> = {
   // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
   // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
 }
@@ -65,7 +77,7 @@ function handleDelete(row: ItemTableData) {
 // #endregion
 
 // #region 改
-function handleUpdate(row: ItemTableData) {
+function handleUpdate(row: CreateOrUpdateItemTableRequestData) {
   dialogVisible.value = true
   formData.value = cloneDeep(row)
 }
@@ -145,6 +157,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="name" label="名字" align="center" />
+          <el-table-column prop="order_num" label="订单号" align="center" />
+          <el-table-column prop="parent_item_name" label="上级物品" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
@@ -180,6 +194,12 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
         <el-form-item prop="name" label="名字">
           <el-input v-model="formData.name" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="order_id" label="订单">
+          <el-select-v2 v-model="formData.order_id" :options="order_options" filterable placeholder="请选择" />
+        </el-form-item>
+        <el-form-item prop="parent_item_id" label="上级物品">
+          <el-select-v2 v-model="formData.parent_item_id" :options="item_options" filterable placeholder="请选择" />
         </el-form-item>
       </el-form>
       <template #footer>

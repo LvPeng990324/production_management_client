@@ -1,5 +1,8 @@
 export interface CreateOrUpdateItemTableRequestData {
+  item_id?: number
   name: string
+  order_id: number
+  parent_item_id: number
 }
 
 export interface ItemTableRequestData {
@@ -13,6 +16,8 @@ export interface ItemTableRequestData {
 export interface ItemTableData {
   item_id: number
   name: string
+  order_num: string
+  parent_item_name: string
 }
 
 export type ItemTableResponseData = ApiResponseData<{
