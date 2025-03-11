@@ -172,8 +172,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "OrderList",
         meta: {
           title: "订单",
-          svgIcon: "order",
-          affix: true
+          svgIcon: "order"
         }
       }
     ]
@@ -194,8 +193,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "SupplierList",
         meta: {
           title: "供应商",
-          svgIcon: "supplier",
-          affix: true
+          svgIcon: "supplier"
         }
       }
     ]
@@ -216,8 +214,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "ItemList",
         meta: {
           title: "物品",
-          svgIcon: "item",
-          affix: true
+          svgIcon: "item"
         }
       }
     ]
@@ -238,8 +235,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "TechnicalList",
         meta: {
           title: "技术变更",
-          svgIcon: "technical_change",
-          affix: true
+          svgIcon: "technical_change"
         }
       }
     ]
@@ -260,8 +256,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "TechnicInspectionCodealList",
         meta: {
           title: "检验代码",
-          svgIcon: "inspection_code",
-          affix: true
+          svgIcon: "inspection_code"
         }
       }
     ]
