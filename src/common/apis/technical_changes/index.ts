@@ -22,7 +22,7 @@ export function deleteTechnicalChangeDataApi(technical_change_id: number) {
 }
 
 /** 改 */
-export function updateTechnicalChangeDataApi(data: Tables.TechnicalChangeTableData) {
+export function updateTechnicalChangeDataApi(data: Tables.CreateOrUpdateTechnicalChangeTableRequestData) {
   return request({
     url: "item/edit-technical-change/",
     method: "post",

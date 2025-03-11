@@ -159,6 +159,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="name" label="名字" align="center" />
           <el-table-column prop="order_num" label="订单号" align="center" />
           <el-table-column prop="parent_item_name" label="上级物品" align="center" />
+          <el-table-column prop="technical_change_count" label="技术变更数" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">

@@ -1,5 +1,7 @@
 export interface CreateOrUpdateTechnicalChangeTableRequestData {
+  technical_change_id?: number
   name: string
+  item_id: number
 }
 
 export interface TechnicalChangeTableRequestData {
@@ -13,6 +15,7 @@ export interface TechnicalChangeTableRequestData {
 export interface TechnicalChangeTableData {
   technical_change_id: number
   name: string
+  item_name: string
 }
 
 export type TechnicalChangeTableResponseData = ApiResponseData<{

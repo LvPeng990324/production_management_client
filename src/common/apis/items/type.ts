@@ -18,6 +18,7 @@ export interface ItemTableData {
   name: string
   order_num: string
   parent_item_name: string
+  technical_change_count: number
 }
 
 export type ItemTableResponseData = ApiResponseData<{

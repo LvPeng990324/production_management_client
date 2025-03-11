@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import type { TechnicalChangeTableData } from "@@/apis/technical_changes/type"
+import type { CreateOrUpdateTechnicalChangeTableRequestData, TechnicalChangeTableData } from "@@/apis/technical_changes/type"
 import type { FormInstance, FormRules } from "element-plus"
+import { get_item_select_option_list } from "@/common/apis/items/fetch_select_options"
 import { createTechnicalChangeDataApi, deleteTechnicalChangeDataApi, getTechnicalChangeDataApi, updateTechnicalChangeDataApi } from "@@/apis/technical_changes"
+import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
 import { CirclePlus, Delete, Download, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
 import { cloneDeep } from "lodash-es"
@@ -11,18 +13,23 @@ defineOptions({
   name: "ElementPlus"
 })
 
+const { options: item_options } = useFetchSelect({
+  api: get_item_select_option_list
+})
+
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 // #region 增
-const DEFAULT_FORM_DATA: TechnicalChangeTableData = {
+const DEFAULT_FORM_DATA: CreateOrUpdateTechnicalChangeTableRequestData = {
   technical_change_id: 0,
-  name: ""
+  name: "",
+  item_id: 0
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formData = ref<TechnicalChangeTableData>(cloneDeep(DEFAULT_FORM_DATA))
-const formRules: FormRules<TechnicalChangeTableData> = {
+const formData = ref<CreateOrUpdateTechnicalChangeTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
+const formRules: FormRules<CreateOrUpdateTechnicalChangeTableRequestData> = {
   // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
   // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
 }
@@ -65,7 +72,7 @@ function handleDelete(row: TechnicalChangeTableData) {
 // #endregion
 
 // #region 改
-function handleUpdate(row: TechnicalChangeTableData) {
+function handleUpdate(row: CreateOrUpdateTechnicalChangeTableRequestData) {
   dialogVisible.value = true
   formData.value = cloneDeep(row)
 }
@@ -145,6 +152,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="name" label="名字" align="center" />
+          <el-table-column prop="item_name" label="物品" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
@@ -180,6 +188,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
         <el-form-item prop="name" label="名字">
           <el-input v-model="formData.name" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="item_id" label="物品">
+          <el-select-v2 v-model="formData.item_id" :options="item_options" filterable placeholder="请选择" />
         </el-form-item>
       </el-form>
       <template #footer>
