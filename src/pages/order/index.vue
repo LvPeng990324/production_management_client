@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TableData } from "@@/apis/orders/type"
+import type { CreateOrUpdateTableRequestData, TableData } from "@@/apis/orders/type"
 import type { FormInstance, FormRules } from "element-plus"
 import { createOrderDataApi, deleteOrderDataApi, getOrderDataApi, updateOrderDataApi } from "@@/apis/orders"
 import { usePagination } from "@@/composables/usePagination"
@@ -15,7 +15,7 @@ const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 // #region 增
-const DEFAULT_FORM_DATA: TableData = {
+const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
   order_id: 0,
   order_num: "",
   order_status: 0,
@@ -23,8 +23,8 @@ const DEFAULT_FORM_DATA: TableData = {
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formData = ref<TableData>(cloneDeep(DEFAULT_FORM_DATA))
-const formRules: FormRules<TableData> = {
+const formData = ref<CreateOrUpdateTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
+const formRules: FormRules<CreateOrUpdateTableRequestData> = {
   // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
   // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
 }
@@ -67,7 +67,7 @@ function handleDelete(row: TableData) {
 // #endregion
 
 // #region 改
-function handleUpdate(row: TableData) {
+function handleUpdate(row: CreateOrUpdateTableRequestData) {
   dialogVisible.value = true
   formData.value = cloneDeep(row)
 }

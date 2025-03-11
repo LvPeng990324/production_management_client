@@ -1,4 +1,5 @@
 export interface CreateOrUpdateSupplierTableRequestData {
+  supplier_id?: number
   name: string
   phone: string
 }

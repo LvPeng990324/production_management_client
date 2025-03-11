@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SupplierTableData } from "@@/apis/suppliers/type"
+import type { CreateOrUpdateSupplierTableRequestData, SupplierTableData } from "@@/apis/suppliers/type"
 import type { FormInstance, FormRules } from "element-plus"
 import { createSupplierDataApi, deleteSupplierDataApi, getSupplierDataApi, updateSupplierDataApi } from "@@/apis/suppliers"
 import { usePagination } from "@@/composables/usePagination"
@@ -15,15 +15,15 @@ const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 // #region 增
-const DEFAULT_FORM_DATA: SupplierTableData = {
+const DEFAULT_FORM_DATA: CreateOrUpdateSupplierTableRequestData = {
   supplier_id: 0,
   name: "",
   phone: ""
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formData = ref<SupplierTableData>(cloneDeep(DEFAULT_FORM_DATA))
-const formRules: FormRules<SupplierTableData> = {
+const formData = ref<CreateOrUpdateSupplierTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
+const formRules: FormRules<CreateOrUpdateSupplierTableRequestData> = {
   // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
   // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
 }
@@ -66,7 +66,7 @@ function handleDelete(row: SupplierTableData) {
 // #endregion
 
 // #region 改
-function handleUpdate(row: SupplierTableData) {
+function handleUpdate(row: CreateOrUpdateSupplierTableRequestData) {
   dialogVisible.value = true
   formData.value = cloneDeep(row)
 }

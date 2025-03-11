@@ -22,7 +22,7 @@ export function deleteSupplierDataApi(supplier_id: number) {
 }
 
 /** 改 */
-export function updateSupplierDataApi(data: Tables.SupplierTableData) {
+export function updateSupplierDataApi(data: Tables.CreateOrUpdateSupplierTableRequestData) {
   return request({
     url: "supplier/edit-supplier/",
     method: "post",

@@ -1,4 +1,5 @@
 export interface CreateOrUpdateInspectionCodeTableRequestData {
+  inspection_code_id?: number
   name: string
 }
 

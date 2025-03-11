@@ -22,7 +22,7 @@ export function deleteInspectionCodeDataApi(inspection_code_id: number) {
 }
 
 /** 改 */
-export function updateInspectionCodeDataApi(data: Tables.InspectionCodeTableData) {
+export function updateInspectionCodeDataApi(data: Tables.CreateOrUpdateInspectionCodeTableRequestData) {
   return request({
     url: "item/edit-inspection-code/",
     method: "post",

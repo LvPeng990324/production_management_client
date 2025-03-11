@@ -1,4 +1,5 @@
 export interface CreateOrUpdateTableRequestData {
+  order_id?: number
   order_num: string
   order_status: number
   order_start_time: string
@@ -13,10 +14,10 @@ export interface TableRequestData {
 }
 
 export interface TableData {
-  order_id: number,
-  order_num: string,
-  order_status: number,
-  order_start_time: string,
+  order_id: number
+  order_num: string
+  order_status: number
+  order_start_time: string
 }
 
 export type TableResponseData = ApiResponseData<{
