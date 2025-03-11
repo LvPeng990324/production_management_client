@@ -32,7 +32,8 @@ const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   item_id: 0,
   name: "",
   order_id: 0,
-  parent_item_id: 0
+  parent_item_id: 0,
+  inspection_code_id_list: []
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
