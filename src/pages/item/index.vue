@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { CreateOrUpdateItemTableRequestData, ItemTableData } from "@@/apis/items/type"
 import type { FormInstance, FormRules } from "element-plus"
-import { get_item_select_option_list } from "@/common/apis/items/fetch_select_options"
+import { get_inspection_code_select_option_list, get_item_select_option_list } from "@/common/apis/items/fetch_select_options"
 import { get_order_select_option_list } from "@/common/apis/orders/fetch_select_options"
 import { createItemDataApi, deleteItemDataApi, getItemDataApi, updateItemDataApi } from "@@/apis/items"
 import { useFetchSelect } from "@@/composables/useFetchSelect"
@@ -19,6 +19,9 @@ const { options: order_options } = useFetchSelect({
 })
 const { options: item_options } = useFetchSelect({
   api: get_item_select_option_list
+})
+const { options: inspection_code_options } = useFetchSelect({
+  api: get_inspection_code_select_option_list
 })
 
 const loading = ref<boolean>(false)
@@ -160,6 +163,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="order_num" label="订单号" align="center" />
           <el-table-column prop="parent_item_name" label="上级物品" align="center" />
           <el-table-column prop="technical_change_count" label="技术变更数" align="center" />
+          <el-table-column prop="inspection_code_name_list" label="检验代码" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
@@ -201,6 +205,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="parent_item_id" label="上级物品">
           <el-select-v2 v-model="formData.parent_item_id" :options="item_options" filterable placeholder="请选择" />
+        </el-form-item>
+        <el-form-item prop="inspection_code_id_list" label="检验代码">
+          <el-select-v2 v-model="formData.inspection_code_id_list" :options="inspection_code_options" filterable multiple placeholder="请选择" />
         </el-form-item>
       </el-form>
       <template #footer>

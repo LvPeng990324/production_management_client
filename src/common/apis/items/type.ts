@@ -3,6 +3,7 @@ export interface CreateOrUpdateItemTableRequestData {
   name: string
   order_id: number
   parent_item_id: number
+  inspection_code_id_list: number[]
 }
 
 export interface ItemTableRequestData {
@@ -19,6 +20,7 @@ export interface ItemTableData {
   order_num: string
   parent_item_name: string
   technical_change_count: number
+  inspection_code_name_list: string[]
 }
 
 export type ItemTableResponseData = ApiResponseData<{
