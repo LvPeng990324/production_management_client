@@ -1,10 +1,19 @@
 <script lang="ts" setup>
-import { ref } from "vue"
+import type { DashboardShowData } from "@@/apis/dashboard/type"
+import { get_dashboard_show_data_api } from "@@/apis/dashboard"
 
-const order_count = ref(0)
-const supplier_count = ref(0)
+const dashboard_show_data = ref<DashboardShowData>({
+  order_count: 0,
+  supplier_count: 0
+})
 
-order_count.value = 10
+// 获取展示数据
+function getShowData() {
+  get_dashboard_show_data_api().then(({ data }) => {
+    dashboard_show_data.value = data
+  })
+}
+getShowData()
 </script>
 
 <template>
@@ -12,24 +21,12 @@ order_count.value = 10
     <el-row :gutter="16">
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="order_count">
-            <template #title>
-              <div style="display: inline-flex; align-items: center">
-                订单数
-              </div>
-            </template>
-          </el-statistic>
+          <el-statistic :value="dashboard_show_data.order_count" title="订单数" />
         </div>
       </el-col>
       <el-col :span="8">
         <div class="statistic-card">
-          <el-statistic :value="supplier_count">
-            <template #title>
-              <div style="display: inline-flex; align-items: center">
-                供应商数
-              </div>
-            </template>
-          </el-statistic>
+          <el-statistic :value="dashboard_show_data.supplier_count" title="供应商数" />
         </div>
       </el-col>
     </el-row>
