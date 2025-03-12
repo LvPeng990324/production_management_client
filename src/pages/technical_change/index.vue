@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { CreateOrUpdateTechnicalChangeTableRequestData, TechnicalChangeTableData } from "@@/apis/technical_changes/type"
 import type { FormInstance, FormRules } from "element-plus"
-import { get_item_select_option_list } from "@/common/apis/items/fetch_select_options"
+import { get_item_select_option_list } from "@@/apis/fetch_select_options"
 import { createTechnicalChangeDataApi, deleteTechnicalChangeDataApi, getTechnicalChangeDataApi, updateTechnicalChangeDataApi } from "@@/apis/technical_changes"
 import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"

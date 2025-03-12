@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { CreateOrUpdateItemTableRequestData, ItemTableData } from "@@/apis/items/type"
 import type { FormInstance, FormRules } from "element-plus"
-import { get_inspection_code_select_option_list, get_item_select_option_list } from "@/common/apis/items/fetch_select_options"
-import { get_order_select_option_list } from "@/common/apis/orders/fetch_select_options"
+import { get_inspection_code_select_option_list, get_item_select_option_list, get_order_select_option_list } from "@@/apis/fetch_select_options"
 import { createItemDataApi, deleteItemDataApi, getItemDataApi, updateItemDataApi } from "@@/apis/items"
 import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
