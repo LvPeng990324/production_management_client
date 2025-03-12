@@ -24,14 +24,14 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 const DEFAULT_FORM_DATA: CreateOrUpdateTechnicalChangeTableRequestData = {
   technical_change_id: 0,
   name: "",
-  item_id: 0
+  item_id: undefined
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateTechnicalChangeTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
 const formRules: FormRules<CreateOrUpdateTechnicalChangeTableRequestData> = {
-  // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
-  // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
+  name: [{ required: true, trigger: "blur", message: "请输入名字" }],
+  item_id: [{ required: true, trigger: "blur", message: "请选择对应的物品" }]
 }
 function handleCreateOrUpdate() {
   formRef.value?.validate((valid) => {

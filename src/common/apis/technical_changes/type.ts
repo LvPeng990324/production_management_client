@@ -1,7 +1,7 @@
 export interface CreateOrUpdateTechnicalChangeTableRequestData {
   technical_change_id?: number
   name: string
-  item_id: number
+  item_id?: number
 }
 
 export interface TechnicalChangeTableRequestData {

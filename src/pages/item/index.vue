@@ -30,16 +30,15 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   item_id: 0,
   name: "",
-  order_id: 0,
-  parent_item_id: 0,
+  order_id: undefined,
+  parent_item_id: undefined,
   inspection_code_id_list: []
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateItemTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
 const formRules: FormRules<CreateOrUpdateItemTableRequestData> = {
-  // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
-  // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
+  name: [{ required: true, trigger: "blur", message: "请输入名字" }]
 }
 function handleCreateOrUpdate() {
   formRef.value?.validate((valid) => {

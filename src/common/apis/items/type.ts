@@ -1,8 +1,8 @@
 export interface CreateOrUpdateItemTableRequestData {
   item_id?: number
   name: string
-  order_id: number
-  parent_item_id: number
+  order_id?: number
+  parent_item_id?: number
   inspection_code_id_list: number[]
 }
 

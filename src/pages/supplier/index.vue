@@ -24,8 +24,8 @@ const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateSupplierTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
 const formRules: FormRules<CreateOrUpdateSupplierTableRequestData> = {
-  // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
-  // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
+  name: [{ required: true, trigger: "blur", message: "请输入名字" }],
+  phone: [{ required: true, trigger: "blur", pattern: /^1[3-9]\d{9}$/, message: "请输入正确的手机号" }]
 }
 function handleCreateOrUpdate() {
   formRef.value?.validate((valid) => {

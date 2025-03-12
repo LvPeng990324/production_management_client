@@ -23,8 +23,7 @@ const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateInspectionCodeTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
 const formRules: FormRules<CreateOrUpdateInspectionCodeTableRequestData> = {
-  // username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
-  // password: [{ required: true, trigger: "blur", message: "请输入密码" }]
+  name: [{ required: true, trigger: "blur", message: "请输入名字" }]
 }
 function handleCreateOrUpdate() {
   formRef.value?.validate((valid) => {
