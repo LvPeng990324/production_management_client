@@ -10,7 +10,7 @@ import { cloneDeep } from "lodash-es"
 
 defineOptions({
   // 命名当前组件
-  name: "ElementPlus"
+  name: "TechnicalChange"
 })
 
 const { options: item_options } = useFetchSelect({
