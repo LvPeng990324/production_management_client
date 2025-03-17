@@ -167,6 +167,27 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/user-log",
+    component: Layouts,
+    redirect: "/user-log",
+    name: "UserLog",
+    meta: {
+      title: "用户日志",
+      svgIcon: "user_log"
+    },
+    children: [
+      {
+        path: "user-log-list",
+        component: () => import("@/pages/user_log/index.vue"),
+        name: "UserLogList",
+        meta: {
+          title: "用户日志",
+          svgIcon: "user_log"
+        }
+      }
+    ]
   }
 ]
 
