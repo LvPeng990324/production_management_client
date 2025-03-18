@@ -25,18 +25,18 @@ const loading = ref(false)
 
 /** 登录表单数据 */
 const loginFormData: LoginRequestData = reactive({
-  username: "admin",
-  password: "12345678"
+  phone: "13061299868",
+  password: "123456"
 })
 
 /** 登录表单校验规则 */
 const loginFormRules: FormRules = {
-  username: [
-    { required: true, message: "请输入用户名", trigger: "blur" }
+  phone: [
+    { required: true, message: "请输入手机号", trigger: "blur" }
   ],
   password: [
     { required: true, message: "请输入密码", trigger: "blur" },
-    { min: 8, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur" }
+    { min: 6, max: 16, message: "长度在 6 到 16 个字符", trigger: "blur" }
   ]
 }
 
@@ -70,10 +70,10 @@ function handleLogin() {
       </div>
       <div class="content">
         <el-form ref="loginFormRef" :model="loginFormData" :rules="loginFormRules" @keyup.enter="handleLogin">
-          <el-form-item prop="username">
+          <el-form-item prop="phone">
             <el-input
-              v-model.trim="loginFormData.username"
-              placeholder="用户名"
+              v-model.trim="loginFormData.phone"
+              placeholder="手机号"
               type="text"
               tabindex="1"
               :prefix-icon="User"
