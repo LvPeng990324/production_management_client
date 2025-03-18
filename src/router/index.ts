@@ -188,6 +188,29 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/user",
+    component: Layouts,
+    redirect: "/user",
+    name: "User",
+    meta: {
+      title: "用户",
+      svgIcon: "user_log",
+      hidden: true
+    },
+    children: [
+      {
+        path: "change-self-info",
+        component: () => import("@/pages/change_self_info/index.vue"),
+        name: "ChangeSelfInfo",
+        meta: {
+          title: "修改信息",
+          svgIcon: "user_log",
+          hidden: true
+        }
+      }
+    ]
   }
 ]
 
