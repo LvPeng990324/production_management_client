@@ -160,7 +160,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="name" label="名字" align="center" />
-          <el-table-column prop="cost" label="成本" align="center" />
+          <el-table-column prop="cost" label="自身成本" align="center" />
+          <el-table-column prop="total_cost" label="总成本" align="center" />
           <el-table-column prop="order_num" label="订单号" align="center" />
           <el-table-column prop="parent_item_name" label="上级物品" align="center" />
           <el-table-column prop="technical_change_count" label="技术变更数" align="center" />

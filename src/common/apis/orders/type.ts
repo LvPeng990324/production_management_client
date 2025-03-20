@@ -18,6 +18,7 @@ export interface TableData {
   order_num: string
   order_status: number
   order_start_time: string
+  total_cost: number
 }
 
 export type TableResponseData = ApiResponseData<{

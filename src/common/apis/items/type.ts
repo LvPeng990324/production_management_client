@@ -21,6 +21,7 @@ export interface ItemTableData {
   order_num: string
   parent_item_name: string
   cost: number
+  total_cost: number
   technical_change_count: number
   inspection_code_name_list: string[]
 }
