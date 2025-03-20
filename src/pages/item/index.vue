@@ -32,6 +32,7 @@ const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   name: "",
   order_id: undefined,
   parent_item_id: undefined,
+  cost: 0,
   inspection_code_id_list: []
 }
 const dialogVisible = ref<boolean>(false)
@@ -159,6 +160,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="name" label="名字" align="center" />
+          <el-table-column prop="cost" label="成本" align="center" />
           <el-table-column prop="order_num" label="订单号" align="center" />
           <el-table-column prop="parent_item_name" label="上级物品" align="center" />
           <el-table-column prop="technical_change_count" label="技术变更数" align="center" />
@@ -198,6 +200,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
         <el-form-item prop="name" label="名字">
           <el-input v-model="formData.name" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="cost" label="成本">
+          <el-input v-model="formData.cost" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="order_id" label="订单">
           <el-select-v2 v-model="formData.order_id" :options="order_options" filterable placeholder="请选择" />
