@@ -74,6 +74,12 @@ function handleUpdate(row: CreateOrUpdateTableRequestData) {
 }
 // #endregion
 
+// #region 查看物品
+function handleSeeItem(row: CreateOrUpdateTableRequestData) {
+  ElMessage.warning(`查看${row.order_num}物品，开发中...`)
+}
+// #endregion
+
 // #region 查
 const tableData = ref<TableData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
@@ -170,6 +176,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
                 修改
+              </el-button>
+              <el-button type="info" text bg size="small" @click="handleSeeItem(scope.row)">
+                物品
               </el-button>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">
                 删除
