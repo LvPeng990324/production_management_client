@@ -4,6 +4,7 @@ export interface CreateOrUpdateItemTableRequestData {
   order_id?: number
   parent_item_id?: number
   cost: number
+  num: number
   inspection_code_id_list: number[]
 }
 
@@ -24,6 +25,8 @@ export interface ItemTableData {
   total_cost: number
   level: number
   technical_change_count: number
+  num: number
+  total_num: number
   inspection_code_name_list: string[]
 }
 
