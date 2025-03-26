@@ -48,7 +48,9 @@ function createInstance() {
           return Promise.reject(new Error("Error"))
         case 401:
           // Token 过期时
-          return logout()
+          ElMessage.error(apiData.data.msg || "Token过期")
+          logout()
+          return Promise.reject(new Error("Token过期"))
         default:
           // 不是正确的 code
           ElMessage.error(apiData.message || "Error")
