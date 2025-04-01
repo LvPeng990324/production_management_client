@@ -41,14 +41,14 @@ function createInstance() {
           // 本系统采用 code === 0 来表示没有业务错误
           return apiData
         case 1:
-          ElMessage.error(apiData.data.msg || "未找到")
+          ElMessage.error(apiData.data.message || "未找到")
           return Promise.reject(new Error("Error"))
         case 2:
-          ElMessage.error(apiData.data.msg || "鉴权错误")
+          ElMessage.error(apiData.data.message || "鉴权错误")
           return Promise.reject(new Error("Error"))
         case 401:
           // Token 过期时
-          ElMessage.error(apiData.data.msg || "Token过期")
+          ElMessage.error(apiData.data.message || "Token过期")
           logout()
           return Promise.reject(new Error("Token过期"))
         default:
