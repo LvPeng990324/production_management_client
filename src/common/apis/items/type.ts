@@ -6,6 +6,20 @@ export interface CreateOrUpdateItemTableRequestData {
   cost: number
   num: number
   inspection_code_id_list: number[]
+  jet_position: string
+  item_number: string
+  description: string
+  material: string
+  weight: number
+  revision: string
+  uom: string
+  line_type: string
+  supply_type: string
+  eco_number: string
+  danieli_standard: string
+  classification: string
+  paint_type: string
+  color_number: string
 }
 
 export interface ItemTableRequestData {
@@ -28,6 +42,20 @@ export interface ItemTableData {
   num: number
   total_num: number
   inspection_code_name_list: string[]
+  jet_position: string
+  item_number: string
+  description: string
+  material: string
+  weight: number
+  revision: string
+  uom: string
+  line_type: string
+  supply_type: string
+  eco_number: string
+  danieli_standard: string
+  classification: string
+  paint_type: string
+  color_number: string
 }
 
 export type ItemTableResponseData = ApiResponseData<{

@@ -34,7 +34,21 @@ const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   parent_item_id: undefined,
   cost: 0,
   num: 0,
-  inspection_code_id_list: []
+  inspection_code_id_list: [],
+  jet_position: "",
+  item_number: "",
+  description: "",
+  material: "",
+  weight: 0,
+  revision: "",
+  uom: "",
+  line_type: "",
+  supply_type: "",
+  eco_number: "",
+  danieli_standard: "",
+  classification: "",
+  paint_type: "",
+  color_number: ""
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
@@ -170,6 +184,20 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="parent_item_name" label="上级物品" align="center" />
           <el-table-column prop="technical_change_count" label="技术变更数" align="center" />
           <el-table-column prop="inspection_code_name_list" label="检验代码" align="center" />
+          <el-table-column prop="jet_position" label="JetPosition" align="center" />
+          <el-table-column prop="item_number" label="ItemNumber" align="center" />
+          <el-table-column prop="description" label="Description" align="center" />
+          <el-table-column prop="material" label="Material" align="center" />
+          <el-table-column prop="weight" label="Weight" align="center" />
+          <el-table-column prop="revision" label="Revision" align="center" />
+          <el-table-column prop="uom" label="Uom" align="center" />
+          <el-table-column prop="line_type" label="LineType" align="center" />
+          <el-table-column prop="supply_type" label="SupplyType" align="center" />
+          <el-table-column prop="eco_number" label="EcoNumber" align="center" />
+          <el-table-column prop="danieli_standard" label="DanieliStandard" align="center" />
+          <el-table-column prop="classification" label="Classification" align="center" />
+          <el-table-column prop="paint_type" label="油漆种类" align="center" />
+          <el-table-column prop="color_number" label="色号" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
@@ -220,6 +248,48 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="inspection_code_id_list" label="检验代码">
           <el-select-v2 v-model="formData.inspection_code_id_list" :options="inspection_code_options" filterable multiple placeholder="请选择" />
+        </el-form-item>
+        <el-form-item prop="jet_position" label="JetPosition">
+          <el-input v-model="formData.jet_position" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="item_number" label="ItemNumber">
+          <el-input v-model="formData.item_number" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="description" label="Description">
+          <el-input v-model="formData.description" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="material" label="Material">
+          <el-input v-model="formData.material" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="weight" label="Weight">
+          <el-input v-model="formData.weight" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="revision" label="Revision">
+          <el-input v-model="formData.revision" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="uom" label="Uom">
+          <el-input v-model="formData.uom" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="line_type" label="LineType">
+          <el-input v-model="formData.line_type" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="supply_type" label="SupplyType">
+          <el-input v-model="formData.supply_type" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="eco_number" label="EcoNumber">
+          <el-input v-model="formData.eco_number" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="danieli_standard" label="DanieliStandard">
+          <el-input v-model="formData.danieli_standard" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="classification" label="Classification">
+          <el-input v-model="formData.classification" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="paint_type" label="油漆种类">
+          <el-input v-model="formData.paint_type" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="color_number" label="色号">
+          <el-input v-model="formData.color_number" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>
