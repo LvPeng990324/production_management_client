@@ -74,12 +74,6 @@ function handleUpdate(row: CreateOrUpdateTableRequestData) {
 }
 // #endregion
 
-// #region 查看物品
-function handleSeeItem(row: CreateOrUpdateTableRequestData) {
-  ElMessage.warning(`查看${row.order_num}物品，开发中...`)
-}
-// #endregion
-
 // #region 查
 const tableData = ref<TableData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
@@ -151,10 +145,23 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </div>
       </div>
       <div class="table-wrapper">
-        <el-table :data="tableData">
+        <el-table :data="tableData" :border="true">
+          <el-table-column type="expand">
+            <template #default="table_datas">
+              <div m="4">
+                <p m="t-0 b-2">
+                  总成本: {{ table_datas.row.total_cost }}
+                </p>
+                <h3>订单物品</h3>
+                <el-table :data="table_datas.row.order_item_info_list" :border="true">
+                  <el-table-column label="名字" prop="name" />
+                </el-table>
+              </div>
+            </template>
+          </el-table-column>
+
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="order_num" label="订单号" align="center" />
-          <el-table-column prop="total_cost" label="总成本" align="center" />
           <el-table-column prop="status" label="状态" align="center">
             <template #default="scope">
               <el-tag v-if="scope.row.order_status === 1" type="info" effect="plain" disable-transitions>
@@ -176,9 +183,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
                 修改
-              </el-button>
-              <el-button type="info" text bg size="small" @click="handleSeeItem(scope.row)">
-                物品
               </el-button>
               <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">
                 删除
