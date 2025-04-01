@@ -15,9 +15,13 @@ export interface TableRequestData {
 
 export interface OrderItem {
   name: string
+  num: number
   cost: number
+  total_cost: number
   sell_price: number
+  total_sell_price: number
   model: string
+  packing_number: string
 }
 
 export interface TableData {

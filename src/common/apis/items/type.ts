@@ -22,6 +22,7 @@ export interface CreateOrUpdateItemTableRequestData {
   classification: string
   paint_type: string
   color_number: string
+  packing_number: string
 }
 
 export interface ItemTableRequestData {
@@ -60,6 +61,7 @@ export interface ItemTableData {
   classification: string
   paint_type: string
   color_number: string
+  packing_number: string
 }
 
 export type ItemTableResponseData = ApiResponseData<{

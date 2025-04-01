@@ -50,7 +50,8 @@ const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   danieli_standard: "",
   classification: "",
   paint_type: "",
-  color_number: ""
+  color_number: "",
+  packing_number: ""
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
@@ -202,6 +203,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="classification" label="Classification" align="center" />
           <el-table-column prop="paint_type" label="油漆种类" align="center" />
           <el-table-column prop="color_number" label="色号" align="center" />
+          <el-table-column prop="packing_number" label="箱单号" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
@@ -300,6 +302,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="color_number" label="色号">
           <el-input v-model="formData.color_number" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="packing_number" label="箱单号">
+          <el-input v-model="formData.packing_number" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>
