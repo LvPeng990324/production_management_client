@@ -155,6 +155,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 <h3>订单物品</h3>
                 <el-table :data="table_datas.row.order_item_info_list" :border="true">
                   <el-table-column label="名字" prop="name" />
+                  <el-table-column label="成本" prop="cost" />
+                  <el-table-column label="销售单价" prop="sell_price" />
+                  <el-table-column label="型号" prop="model" />
                 </el-table>
               </div>
             </template>

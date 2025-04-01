@@ -15,6 +15,9 @@ export interface TableRequestData {
 
 export interface OrderItem {
   name: string
+  cost: number
+  sell_price: number
+  model: string
 }
 
 export interface TableData {
