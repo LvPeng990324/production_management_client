@@ -241,10 +241,10 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-input v-model="formData.num" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="order_id" label="订单">
-          <el-select-v2 v-model="formData.order_id" :options="order_options" filterable placeholder="请选择" />
+          <el-select-v2 v-model="formData.order_id" :options="order_options" filterable clearable placeholder="请选择" />
         </el-form-item>
         <el-form-item prop="parent_item_id" label="上级物品">
-          <el-select-v2 v-model="formData.parent_item_id" :options="item_options" filterable placeholder="请选择" />
+          <el-select-v2 v-model="formData.parent_item_id" :options="item_options" filterable clearable placeholder="请选择" />
         </el-form-item>
         <el-form-item prop="inspection_code_id_list" label="检验代码">
           <el-select-v2 v-model="formData.inspection_code_id_list" :options="inspection_code_options" filterable multiple placeholder="请选择" />
