@@ -51,7 +51,13 @@ const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   classification: "",
   paint_type: "",
   color_number: "",
-  packing_number: ""
+  packing_number: "",
+  pay_money_1: 0,
+  pay_money_2: 0,
+  receive_goods_date_1: "",
+  receive_goods_date_2: "",
+  send_goods_date_1: "",
+  send_goods_date_2: ""
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
@@ -204,6 +210,12 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="paint_type" label="油漆种类" align="center" />
           <el-table-column prop="color_number" label="色号" align="center" />
           <el-table-column prop="packing_number" label="箱单号" align="center" />
+          <el-table-column prop="pay_money_1" label="付款1" align="center" />
+          <el-table-column prop="pay_money_2" label="付款2" align="center" />
+          <el-table-column prop="receive_goods_date_1" label="收货1" align="center" />
+          <el-table-column prop="receive_goods_date_2" label="收货2" align="center" />
+          <el-table-column prop="send_goods_date_1" label="发货2" align="center" />
+          <el-table-column prop="send_goods_date_2" label="发货2" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
@@ -305,6 +317,24 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="packing_number" label="箱单号">
           <el-input v-model="formData.packing_number" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="pay_money_1" label="付款1">
+          <el-input v-model="formData.pay_money_1" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="pay_money_2" label="付款2">
+          <el-input v-model="formData.pay_money_2" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="receive_goods_date_1" label="收货1">
+          <el-input v-model="formData.receive_goods_date_1" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="receive_goods_date_2" label="收货2">
+          <el-input v-model="formData.receive_goods_date_2" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="send_goods_date_1" label="发货1">
+          <el-input v-model="formData.send_goods_date_1" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="send_goods_date_2" label="发货2">
+          <el-input v-model="formData.send_goods_date_2" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>

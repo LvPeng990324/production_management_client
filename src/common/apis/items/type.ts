@@ -23,6 +23,12 @@ export interface CreateOrUpdateItemTableRequestData {
   paint_type: string
   color_number: string
   packing_number: string
+  pay_money_1: number
+  pay_money_2: number
+  receive_goods_date_1: string
+  receive_goods_date_2: string
+  send_goods_date_1: string
+  send_goods_date_2: string
 }
 
 export interface ItemTableRequestData {
@@ -62,6 +68,12 @@ export interface ItemTableData {
   paint_type: string
   color_number: string
   packing_number: string
+  pay_money_1: number
+  pay_money_2: number
+  receive_goods_date_1: string
+  receive_goods_date_2: string
+  send_goods_date_1: string
+  send_goods_date_2: string
 }
 
 export type ItemTableResponseData = ApiResponseData<{

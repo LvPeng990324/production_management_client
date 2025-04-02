@@ -171,6 +171,18 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                     <el-table-column label="单价" prop="sell_price" align="center" />
                     <el-table-column label="总价" prop="total_sell_price" align="center" />
                   </el-table-column>
+                  <el-table-column label="付款" align="center">
+                    <el-table-column label="付款1" prop="pay_money_1" align="center" />
+                    <el-table-column label="付款2" prop="pay_money_2" align="center" />
+                  </el-table-column>
+                  <el-table-column label="收货" align="center">
+                    <el-table-column label="收货1" prop="receive_goods_date_1" align="center" />
+                    <el-table-column label="收货2" prop="receive_goods_date_2" align="center" />
+                  </el-table-column>
+                  <el-table-column label="发货" align="center">
+                    <el-table-column label="发货1" prop="send_goods_date_1" align="center" />
+                    <el-table-column label="发货2" prop="send_goods_date_2" align="center" />
+                  </el-table-column>
                   <el-table-column label="型号" prop="model" align="center" />
                   <el-table-column label="箱单号" prop="packing_number" align="center" />
                 </el-table>
