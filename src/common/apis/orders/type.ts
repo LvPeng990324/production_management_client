@@ -3,6 +3,9 @@ export interface CreateOrUpdateTableRequestData {
   order_num: string
   order_status?: number
   order_start_time: string
+  collect_money_1: number
+  collect_money_2: number
+  collect_money_3: number
 }
 
 export interface TableRequestData {
@@ -31,6 +34,9 @@ export interface TableData {
   order_start_time: string
   total_cost: number
   order_item_info_list: OrderItem[]
+  collect_money_1: number
+  collect_money_2: number
+  collect_money_3: number
 }
 
 export type TableResponseData = ApiResponseData<{

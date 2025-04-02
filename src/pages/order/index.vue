@@ -19,7 +19,10 @@ const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
   order_id: 0,
   order_num: "",
   order_status: undefined,
-  order_start_time: ""
+  order_start_time: "",
+  collect_money_1: 0,
+  collect_money_2: 0,
+  collect_money_3: 0
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
@@ -152,6 +155,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 <p m="t-0 b-2">
                   总成本: {{ table_datas.row.total_cost }}
                 </p>
+                <p m="t-0 b-2">
+                  收款: {{ table_datas.row.collect_money_1 }} | {{ table_datas.row.collect_money_2 }} | {{ table_datas.row.collect_money_3 }}
+                </p>
                 <h3>订单物品</h3>
                 <el-table :data="table_datas.row.order_item_info_list" :border="true">
                   <el-table-column label="名字" prop="name" align="center" />
@@ -241,6 +247,15 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             placeholder="Select date and time"
             value-format="YYYY-MM-DD HH:mm:ss"
           />
+        </el-form-item>
+        <el-form-item prop="collect_money_1" label="收款1">
+          <el-input v-model="formData.collect_money_1" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="collect_money_2" label="收款2">
+          <el-input v-model="formData.collect_money_2" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="collect_money_3" label="收款3">
+          <el-input v-model="formData.collect_money_3" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>
