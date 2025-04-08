@@ -19,7 +19,7 @@ const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
   order_id: 0,
   order_num: "",
   order_status: undefined,
-  order_start_time: "",
+  delivery_date: "",
   collect_money_1: 0,
   collect_money_2: 0,
   collect_money_3: 0
@@ -29,8 +29,7 @@ const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
 const formRules: FormRules<CreateOrUpdateTableRequestData> = {
   order_num: [{ required: true, trigger: "blur", message: "请输入订单号" }],
-  order_status: [{ required: true, trigger: "blur", message: "请选择订单状态" }],
-  order_start_time: [{ required: true, trigger: "blur", message: "请选择开始时间" }]
+  order_status: [{ required: true, trigger: "blur", message: "请选择订单状态" }]
 }
 function handleCreateOrUpdate() {
   formRef.value?.validate((valid) => {
@@ -208,7 +207,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="order_start_time" label="开始时间" align="center" />
+          <el-table-column prop="delivery_date" label="交货时间" align="center" />
           <el-table-column prop="worker_name" label="录入人" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
@@ -253,12 +252,12 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             <el-option :value="3" label="已完成" />
           </el-select>
         </el-form-item>
-        <el-form-item prop="order_start_time" label="开始时间">
+        <el-form-item prop="delivery_date" label="交货日期">
           <el-date-picker
-            v-model="formData.order_start_time"
-            type="datetime"
-            placeholder="Select date and time"
-            value-format="YYYY-MM-DD HH:mm:ss"
+            v-model="formData.delivery_date"
+            type="date"
+            placeholder="选择日期"
+            value-format="YYYY-MM-DD"
           />
         </el-form-item>
         <el-form-item prop="collect_money_1" label="收款1">
