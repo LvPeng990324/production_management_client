@@ -172,7 +172,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     path: "/inspection-code",
     component: Layouts,
     redirect: "/inspection-code",
-    name: "InspectionCode",
+    name: "Purchase",
     meta: {
       title: "检验代码",
       svgIcon: "inspection_code"
@@ -185,6 +185,69 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: {
           title: "检验代码",
           svgIcon: "inspection_code"
+        }
+      }
+    ]
+  },
+  {
+    path: "/financial",
+    component: Layouts,
+    redirect: "/financial",
+    name: "Financial",
+    meta: {
+      title: "财务管理",
+      svgIcon: "financial"
+    },
+    children: [
+      {
+        path: "financial",
+        component: () => import("@/pages/financial/index.vue"),
+        name: "FinancialManagement",
+        meta: {
+          title: "财务管理",
+          svgIcon: "financial"
+        }
+      }
+    ]
+  },
+  {
+    path: "/store-house",
+    component: Layouts,
+    redirect: "/store-house",
+    name: "StoreHouse",
+    meta: {
+      title: "仓库管理",
+      svgIcon: "store_house"
+    },
+    children: [
+      {
+        path: "store-house",
+        component: () => import("@/pages/store_house/index.vue"),
+        name: "StoreHouseManagement",
+        meta: {
+          title: "仓库管理",
+          svgIcon: "store_house"
+        }
+      }
+    ]
+  },
+  {
+    path: "/purchase",
+    component: Layouts,
+    redirect: "/purchase",
+    name: "Purchase",
+    meta: {
+      title: "采购",
+      svgIcon: "purchase"
+    },
+    children: [
+      {
+        path: "purchase",
+        component: () => import("@/pages/purchase/index.vue"),
+        name: "PurchaseManagement",
+        meta: {
+          title: "采购",
+          svgIcon: "purchase"
         }
       }
     ]
