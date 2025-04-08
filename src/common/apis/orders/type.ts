@@ -43,6 +43,7 @@ export interface TableData {
   receive_goods_date_2: string
   send_goods_date_1: string
   send_goods_date_2: string
+  worker_name: string
 }
 
 export type TableResponseData = ApiResponseData<{
