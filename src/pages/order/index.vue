@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import type { CreateOrUpdateTableRequestData, TableData } from "@@/apis/orders/type"
 import type { FormInstance, FormRules } from "element-plus"
+import { get_costomer_select_option_list } from "@@/apis/fetch_select_options"
 import { createOrderDataApi, deleteOrderDataApi, getOrderDataApi, updateOrderDataApi } from "@@/apis/orders"
+import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
 import { CirclePlus, Delete, Download, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
 import { cloneDeep } from "lodash-es"
@@ -9,6 +11,10 @@ import { cloneDeep } from "lodash-es"
 defineOptions({
   // 命名当前组件
   name: "Order"
+})
+
+const { options: customer_options } = useFetchSelect({
+  api: get_costomer_select_option_list
 })
 
 const loading = ref<boolean>(false)
@@ -22,14 +28,16 @@ const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
   delivery_date: "",
   collect_money_1: 0,
   collect_money_2: 0,
-  collect_money_3: 0
+  collect_money_3: 0,
+  customer_id: undefined
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
 const formRules: FormRules<CreateOrUpdateTableRequestData> = {
   order_num: [{ required: true, trigger: "blur", message: "请输入订单号" }],
-  order_status: [{ required: true, trigger: "blur", message: "请选择订单状态" }]
+  order_status: [{ required: true, trigger: "blur", message: "请选择订单状态" }],
+  customer_id: [{ required: true, trigger: "blur", message: "请选择客户" }]
 }
 function handleCreateOrUpdate() {
   formRef.value?.validate((valid) => {
@@ -208,6 +216,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             </template>
           </el-table-column>
           <el-table-column prop="delivery_date" label="交货时间" align="center" />
+          <el-table-column prop="customer_name" label="客户" align="center" />
           <el-table-column prop="worker_name" label="录入人" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
@@ -259,6 +268,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
             placeholder="选择日期"
             value-format="YYYY-MM-DD"
           />
+        </el-form-item>
+        <el-form-item prop="customer_id" label="客户">
+          <el-select-v2 v-model="formData.customer_id" :options="customer_options" filterable clearable placeholder="请选择" />
         </el-form-item>
         <el-form-item prop="collect_money_1" label="收款1">
           <el-input v-model="formData.collect_money_1" placeholder="请输入" />

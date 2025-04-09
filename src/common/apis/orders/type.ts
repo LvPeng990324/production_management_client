@@ -6,6 +6,7 @@ export interface CreateOrUpdateTableRequestData {
   collect_money_1: number
   collect_money_2: number
   collect_money_3: number
+  customer_id?: number
 }
 
 export interface TableRequestData {
@@ -44,6 +45,7 @@ export interface TableData {
   send_goods_date_1: string
   send_goods_date_2: string
   worker_name: string
+  customer_name: string
 }
 
 export type TableResponseData = ApiResponseData<{
