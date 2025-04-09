@@ -25,6 +25,10 @@ const { options: inspection_code_options } = useFetchSelect({
 const { options: supplier_options } = useFetchSelect({
   api: get_supplier_select_option_list
 })
+const item_type_options = [
+  { label: "零件", value: 1 },
+  { label: "装配", value: 2 }
+]
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
@@ -33,6 +37,7 @@ const { paginationData, handleCurrentChange, handleSizeChange } = usePagination(
 const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   item_id: 0,
   name: "",
+  item_type_value: undefined,
   order_id: undefined,
   parent_item_id: undefined,
   cost: 0,
@@ -68,7 +73,8 @@ const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<CreateOrUpdateItemTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
 const formRules: FormRules<CreateOrUpdateItemTableRequestData> = {
-  name: [{ required: true, trigger: "blur", message: "请输入名字" }]
+  name: [{ required: true, trigger: "blur", message: "请输入名字" }],
+  item_type_value: [{ required: true, trigger: "blur", message: "请选择物品类型" }]
 }
 function handleCreateOrUpdate() {
   formRef.value?.validate((valid) => {
@@ -189,6 +195,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="name" label="名字" align="center" />
+          <el-table-column prop="item_type_label" label="类型" align="center" />
           <el-table-column prop="cost" label="自身成本" align="center" />
           <el-table-column prop="total_cost" label="总成本" align="center" />
           <el-table-column prop="sell_price" label="销售单价" align="center" />
@@ -258,6 +265,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
         <el-form-item prop="name" label="名字">
           <el-input v-model="formData.name" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="item_type_value" label="类型">
+          <el-select-v2 v-model="formData.item_type_value" :options="item_type_options" filterable clearable placeholder="请选择" />
         </el-form-item>
         <el-form-item prop="cost" label="成本">
           <el-input v-model="formData.cost" placeholder="请输入" />

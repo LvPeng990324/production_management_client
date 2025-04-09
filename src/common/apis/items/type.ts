@@ -1,6 +1,7 @@
 export interface CreateOrUpdateItemTableRequestData {
   item_id?: number
   name: string
+  item_type_value?: number
   order_id?: number
   parent_item_id?: number
   cost: number
@@ -44,6 +45,7 @@ export interface ItemTableRequestData {
 export interface ItemTableData {
   item_id: number
   name: string
+  item_type_label: string
   order_num: string
   parent_item_name: string
   cost: number
