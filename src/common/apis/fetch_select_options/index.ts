@@ -40,3 +40,13 @@ export function get_costomer_select_option_list() {
     }))
   })
 }
+
+/** 获取供应商选择列表 */
+export function get_supplier_select_option_list() {
+  return new Promise<ApiResponseData<SelectOption[]>>((resolve) => {
+    resolve(request({
+      url: "supplier/get-supplier-select-list/",
+      method: "get"
+    }))
+  })
+}

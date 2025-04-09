@@ -29,6 +29,8 @@ export interface CreateOrUpdateItemTableRequestData {
   receive_goods_date_2: string
   send_goods_date_1: string
   send_goods_date_2: string
+  contract_number: string
+  supplier_id?: number
 }
 
 export interface ItemTableRequestData {
@@ -74,6 +76,8 @@ export interface ItemTableData {
   receive_goods_date_2: string
   send_goods_date_1: string
   send_goods_date_2: string
+  contract_number: string
+  supplier_name: string
 }
 
 export type ItemTableResponseData = ApiResponseData<{

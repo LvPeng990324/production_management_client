@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { CreateOrUpdateItemTableRequestData, ItemTableData } from "@@/apis/items/type"
 import type { FormInstance, FormRules } from "element-plus"
-import { get_inspection_code_select_option_list, get_item_select_option_list, get_order_select_option_list } from "@@/apis/fetch_select_options"
+import { get_inspection_code_select_option_list, get_item_select_option_list, get_order_select_option_list, get_supplier_select_option_list } from "@@/apis/fetch_select_options"
 import { createItemDataApi, deleteItemDataApi, getItemDataApi, updateItemDataApi } from "@@/apis/items"
 import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
@@ -21,6 +21,9 @@ const { options: item_options } = useFetchSelect({
 })
 const { options: inspection_code_options } = useFetchSelect({
   api: get_inspection_code_select_option_list
+})
+const { options: supplier_options } = useFetchSelect({
+  api: get_supplier_select_option_list
 })
 
 const loading = ref<boolean>(false)
@@ -57,7 +60,9 @@ const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   receive_goods_date_1: "",
   receive_goods_date_2: "",
   send_goods_date_1: "",
-  send_goods_date_2: ""
+  send_goods_date_2: "",
+  contract_number: "",
+  supplier_id: undefined
 }
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
@@ -210,6 +215,8 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="paint_type" label="油漆种类" align="center" />
           <el-table-column prop="color_number" label="色号" align="center" />
           <el-table-column prop="packing_number" label="箱单号" align="center" />
+          <el-table-column prop="contract_number" label="合同号" align="center" />
+          <el-table-column prop="supplier_name" label="供应商" align="center" />
           <el-table-column prop="pay_money_1" label="付款1" align="center" />
           <el-table-column prop="pay_money_2" label="付款2" align="center" />
           <el-table-column prop="receive_goods_date_1" label="收货1" align="center" />
@@ -317,6 +324,12 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="packing_number" label="箱单号">
           <el-input v-model="formData.packing_number" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="contract_number" label="合同号">
+          <el-input v-model="formData.contract_number" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="supplier_id" label="供应商">
+          <el-select-v2 v-model="formData.supplier_id" :options="supplier_options" filterable clearable placeholder="请选择" />
         </el-form-item>
         <el-form-item prop="pay_money_1" label="付款1">
           <el-input v-model="formData.pay_money_1" placeholder="请输入" />
