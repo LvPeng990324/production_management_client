@@ -64,13 +64,13 @@ export const constantRoutes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: "/order",
+    path: "/data-management",
     component: Layouts,
-    redirect: "/order",
-    name: "Order",
+    redirect: "/data-management",
+    name: "DataManagement",
     meta: {
-      title: "订单",
-      svgIcon: "order"
+      title: "数据管理",
+      svgIcon: "data_management"
     },
     children: [
       {
@@ -81,19 +81,7 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "订单",
           svgIcon: "order"
         }
-      }
-    ]
-  },
-  {
-    path: "/supplier",
-    component: Layouts,
-    redirect: "/supplier",
-    name: "Supplier",
-    meta: {
-      title: "供应商",
-      svgIcon: "supplier"
-    },
-    children: [
+      },
       {
         path: "supplier-list",
         component: () => import("@/pages/supplier/index.vue"),
@@ -102,19 +90,7 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "供应商",
           svgIcon: "supplier"
         }
-      }
-    ]
-  },
-  {
-    path: "/customer",
-    component: Layouts,
-    redirect: "/customer",
-    name: "Customer",
-    meta: {
-      title: "客户",
-      svgIcon: "supplier"
-    },
-    children: [
+      },
       {
         path: "customer-list",
         component: () => import("@/pages/customer/index.vue"),
@@ -123,19 +99,7 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "客户",
           svgIcon: "supplier"
         }
-      }
-    ]
-  },
-  {
-    path: "/item",
-    component: Layouts,
-    redirect: "/item",
-    name: "Item",
-    meta: {
-      title: "物品",
-      svgIcon: "item"
-    },
-    children: [
+      },
       {
         path: "item-list",
         component: () => import("@/pages/item/index.vue"),
@@ -144,19 +108,7 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "物品",
           svgIcon: "item"
         }
-      }
-    ]
-  },
-  {
-    path: "/technical-change",
-    component: Layouts,
-    redirect: "/technical-change",
-    name: "TechnicalChange",
-    meta: {
-      title: "技术变更",
-      svgIcon: "technical_change"
-    },
-    children: [
+      },
       {
         path: "item-list",
         component: () => import("@/pages/technical_change/index.vue"),
@@ -165,19 +117,7 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "技术变更",
           svgIcon: "technical_change"
         }
-      }
-    ]
-  },
-  {
-    path: "/inspection-code",
-    component: Layouts,
-    redirect: "/inspection-code",
-    name: "Purchase",
-    meta: {
-      title: "检验代码",
-      svgIcon: "inspection_code"
-    },
-    children: [
+      },
       {
         path: "inspection-code-list",
         component: () => import("@/pages/inspection_code/index.vue"),
