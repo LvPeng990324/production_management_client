@@ -168,6 +168,24 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "仓库管理",
           svgIcon: "store_house"
         }
+      },
+      {
+        path: "in-store",
+        component: () => import("@/pages/store_house/in_store.vue"),
+        name: "InStore",
+        meta: {
+          title: "入库",
+          svgIcon: "store_house"
+        }
+      },
+      {
+        path: "out-store",
+        component: () => import("@/pages/store_house/out_store.vue"),
+        name: "OutStore",
+        meta: {
+          title: "出库",
+          svgIcon: "store_house"
+        }
       }
     ]
   },
