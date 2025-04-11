@@ -1,3 +1,5 @@
+import type { FormRules } from "element-plus"
+
 export interface CreateOrUpdateItemTableRequestData {
   item_id?: number
   name: string
@@ -90,3 +92,44 @@ export type ItemTableResponseData = ApiResponseData<{
 export type DeleteItemRequestDate = ApiResponseData<{
   item_id: number
 }>
+
+export const DEFAULT_ITEM_FORM_DATA: CreateOrUpdateItemTableRequestData = {
+  item_id: 0,
+  name: "",
+  item_type_value: undefined,
+  order_id: undefined,
+  parent_item_id: undefined,
+  cost: 0,
+  sell_price: 0,
+  model: "",
+  num: 0,
+  inspection_code_id_list: [],
+  jet_position: "",
+  item_number: "",
+  description: "",
+  material: "",
+  weight: 0,
+  revision: "",
+  uom: "",
+  line_type: "",
+  supply_type: "",
+  eco_number: "",
+  danieli_standard: "",
+  classification: "",
+  paint_type: "",
+  color_number: "",
+  packing_number: "",
+  pay_money_1: 0,
+  pay_money_2: 0,
+  receive_goods_date_1: "",
+  receive_goods_date_2: "",
+  send_goods_date_1: "",
+  send_goods_date_2: "",
+  contract_number: "",
+  supplier_id: undefined
+}
+
+export const itemFormRules: FormRules<CreateOrUpdateItemTableRequestData> = {
+  name: [{ required: true, trigger: "blur", message: "请输入名字" }],
+  item_type_value: [{ required: true, trigger: "blur", message: "请选择物品类型" }]
+}

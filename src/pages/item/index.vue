@@ -3,6 +3,7 @@ import type { CreateOrUpdateItemTableRequestData, ItemTableData } from "@@/apis/
 import type { FormInstance, FormRules } from "element-plus"
 import { get_inspection_code_select_option_list, get_item_select_option_list, get_order_select_option_list, get_supplier_select_option_list } from "@@/apis/fetch_select_options"
 import { createItemDataApi, deleteItemDataApi, getItemDataApi, updateItemDataApi } from "@@/apis/items"
+import { DEFAULT_ITEM_FORM_DATA, itemFormRules } from "@@/apis/items/type"
 import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
 import { CirclePlus, Delete, Download, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
@@ -34,48 +35,9 @@ const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 // #region 增
-const DEFAULT_FORM_DATA: CreateOrUpdateItemTableRequestData = {
-  item_id: 0,
-  name: "",
-  item_type_value: undefined,
-  order_id: undefined,
-  parent_item_id: undefined,
-  cost: 0,
-  sell_price: 0,
-  model: "",
-  num: 0,
-  inspection_code_id_list: [],
-  jet_position: "",
-  item_number: "",
-  description: "",
-  material: "",
-  weight: 0,
-  revision: "",
-  uom: "",
-  line_type: "",
-  supply_type: "",
-  eco_number: "",
-  danieli_standard: "",
-  classification: "",
-  paint_type: "",
-  color_number: "",
-  packing_number: "",
-  pay_money_1: 0,
-  pay_money_2: 0,
-  receive_goods_date_1: "",
-  receive_goods_date_2: "",
-  send_goods_date_1: "",
-  send_goods_date_2: "",
-  contract_number: "",
-  supplier_id: undefined
-}
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formData = ref<CreateOrUpdateItemTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
-const formRules: FormRules<CreateOrUpdateItemTableRequestData> = {
-  name: [{ required: true, trigger: "blur", message: "请输入名字" }],
-  item_type_value: [{ required: true, trigger: "blur", message: "请选择物品类型" }]
-}
+const formData = ref<CreateOrUpdateItemTableRequestData>(cloneDeep(DEFAULT_ITEM_FORM_DATA))
 function handleCreateOrUpdate() {
   formRef.value?.validate((valid) => {
     if (!valid) {
@@ -95,7 +57,7 @@ function handleCreateOrUpdate() {
 }
 function resetForm() {
   formRef.value?.clearValidate()
-  formData.value = cloneDeep(DEFAULT_FORM_DATA)
+  formData.value = cloneDeep(DEFAULT_ITEM_FORM_DATA)
 }
 // #endregion
 
@@ -262,7 +224,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       width="50%"
       @closed="resetForm"
     >
-      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
+      <el-form ref="formRef" :model="formData" :rules="itemFormRules" label-width="100px" label-position="left">
         <el-form-item prop="name" label="名字">
           <el-input v-model="formData.name" placeholder="请输入" />
         </el-form-item>

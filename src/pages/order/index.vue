@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import type { CreateOrUpdateItemTableRequestData } from "@@/apis/items/type"
 import type { CreateOrUpdateTableRequestData, TableData } from "@@/apis/orders/type"
 import type { FormInstance, FormRules } from "element-plus"
 import { get_costomer_select_option_list } from "@@/apis/fetch_select_options"
+import { DEFAULT_ITEM_FORM_DATA, itemFormRules } from "@@/apis/items/type"
 import { createOrderDataApi, deleteOrderDataApi, getOrderDataApi, updateOrderDataApi } from "@@/apis/orders"
 import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
@@ -21,7 +23,7 @@ const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 
 // #region 增
-const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
+const DEFAULT_ORDER_FORM_DATA: CreateOrUpdateTableRequestData = {
   order_id: 0,
   order_num: "",
   order_status: undefined,
@@ -31,25 +33,28 @@ const DEFAULT_FORM_DATA: CreateOrUpdateTableRequestData = {
   collect_money_3: 0,
   customer_id: undefined
 }
-const dialogVisible = ref<boolean>(false)
-const formRef = ref<FormInstance | null>(null)
-const formData = ref<CreateOrUpdateTableRequestData>(cloneDeep(DEFAULT_FORM_DATA))
-const formRules: FormRules<CreateOrUpdateTableRequestData> = {
+const orderDialogVisible = ref<boolean>(false)
+const itemDialogVisible = ref<boolean>(false)
+const orderFormRef = ref<FormInstance | null>(null)
+const itemFormRef = ref<FormInstance | null>(null)
+const orderFormData = ref<CreateOrUpdateTableRequestData>(cloneDeep(DEFAULT_ORDER_FORM_DATA))
+const itemFormData = ref<CreateOrUpdateItemTableRequestData>(cloneDeep(DEFAULT_ITEM_FORM_DATA))
+const orderFormRules: FormRules<CreateOrUpdateTableRequestData> = {
   order_num: [{ required: true, trigger: "blur", message: "请输入订单号" }],
   order_status: [{ required: true, trigger: "blur", message: "请选择订单状态" }],
   customer_id: [{ required: true, trigger: "blur", message: "请选择客户" }]
 }
-function handleCreateOrUpdate() {
-  formRef.value?.validate((valid) => {
+function handleOrderCreateOrUpdate() {
+  orderFormRef.value?.validate((valid) => {
     if (!valid) {
       ElMessage.error("表单校验不通过")
       return
     }
     loading.value = true
-    const api = formData.value.order_id === 0 ? createOrderDataApi : updateOrderDataApi
-    api(formData.value).then(() => {
+    const api = orderFormData.value.order_id === 0 ? createOrderDataApi : updateOrderDataApi
+    api(orderFormData.value).then(() => {
       ElMessage.success("操作成功")
-      dialogVisible.value = false
+      orderDialogVisible.value = false
       getTableData()
     }).finally(() => {
       loading.value = false
@@ -57,8 +62,8 @@ function handleCreateOrUpdate() {
   })
 }
 function resetForm() {
-  formRef.value?.clearValidate()
-  formData.value = cloneDeep(DEFAULT_FORM_DATA)
+  orderFormRef.value?.clearValidate()
+  orderFormData.value = cloneDeep(DEFAULT_ORDER_FORM_DATA)
 }
 // #endregion
 
@@ -78,9 +83,9 @@ function handleDelete(row: TableData) {
 // #endregion
 
 // #region 改
-function handleUpdate(row: CreateOrUpdateTableRequestData) {
-  dialogVisible.value = true
-  formData.value = cloneDeep(row)
+function handleOrderUpdate(row: CreateOrUpdateTableRequestData) {
+  orderDialogVisible.value = true
+  orderFormData.value = cloneDeep(row)
 }
 // #endregion
 
@@ -138,7 +143,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="dialogVisible = true;formData.order_id = 0">
+          <el-button type="primary" :icon="CirclePlus" @click="orderDialogVisible = true;orderFormData.order_id = 0">
             新增
           </el-button>
           <el-button type="danger" :icon="Delete">
@@ -225,7 +230,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                   操作
                 </el-button>
                 <template #dropdown>
-                  <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
+                  <el-button type="primary" text bg size="small" @click="handleOrderUpdate(scope.row)">
                     修改
                   </el-button>
                   <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">
@@ -250,19 +255,19 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         />
       </div>
     </el-card>
-    <!-- 新增/修改 -->
+    <!-- 新增/修改订单 -->
     <el-dialog
-      v-model="dialogVisible"
-      :title="formData.order_id === 0 ? '新增订单' : '修改订单'"
+      v-model="orderDialogVisible"
+      :title="orderFormData.order_id === 0 ? '新增订单' : '修改订单'"
       width="50%"
       @closed="resetForm"
     >
-      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
+      <el-form ref="orderFormRef" :model="orderFormData" :rules="orderFormRules" label-width="100px" label-position="left">
         <el-form-item prop="order_num" label="订单号">
-          <el-input v-model="formData.order_num" placeholder="请输入" />
+          <el-input v-model="orderFormData.order_num" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="order_status" label="订单状态">
-          <el-select v-model="formData.order_status" placeholder="请选择">
+          <el-select v-model="orderFormData.order_status" placeholder="请选择">
             <el-option :value="1" label="待启动" />
             <el-option :value="2" label="制作中" />
             <el-option :value="3" label="已完成" />
@@ -270,30 +275,52 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="delivery_date" label="交货日期">
           <el-date-picker
-            v-model="formData.delivery_date"
+            v-model="orderFormData.delivery_date"
             type="date"
             placeholder="选择日期"
             value-format="YYYY-MM-DD"
           />
         </el-form-item>
         <el-form-item prop="customer_id" label="客户">
-          <el-select-v2 v-model="formData.customer_id" :options="customer_options" filterable clearable placeholder="请选择" />
+          <el-select-v2 v-model="orderFormData.customer_id" :options="customer_options" filterable clearable placeholder="请选择" />
         </el-form-item>
         <el-form-item prop="collect_money_1" label="收款1">
-          <el-input v-model="formData.collect_money_1" placeholder="请输入" />
+          <el-input v-model="orderFormData.collect_money_1" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="collect_money_2" label="收款2">
-          <el-input v-model="formData.collect_money_2" placeholder="请输入" />
+          <el-input v-model="orderFormData.collect_money_2" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="collect_money_3" label="收款3">
-          <el-input v-model="formData.collect_money_3" placeholder="请输入" />
+          <el-input v-model="orderFormData.collect_money_3" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">
+        <el-button @click="orderDialogVisible = false">
           取消
         </el-button>
-        <el-button type="primary" :loading="loading" @click="handleCreateOrUpdate">
+        <el-button type="primary" :loading="loading" @click="handleOrderCreateOrUpdate">
+          确认
+        </el-button>
+      </template>
+    </el-dialog>
+
+    <!-- 新增/修改物品 -->
+    <el-dialog
+      v-model="itemDialogVisible"
+      :title="itemFormData.order_id === 0 ? '新增物品' : '修改物品'"
+      width="50%"
+      @closed="resetForm"
+    >
+      <el-form ref="itemFormRef" :model="itemFormData" :rules="itemFormRules" label-width="100px" label-position="left">
+        <el-form-item prop="name" label="名称">
+          <el-input v-model="itemFormData.name" placeholder="请输入" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="orderDialogVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" :loading="loading" @click="handleOrderCreateOrUpdate">
           确认
         </el-button>
       </template>
