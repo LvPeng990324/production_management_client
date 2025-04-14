@@ -133,3 +133,9 @@ export const itemFormRules: FormRules<CreateOrUpdateItemTableRequestData> = {
   name: [{ required: true, trigger: "blur", message: "请输入名字" }],
   item_type_value: [{ required: true, trigger: "blur", message: "请选择物品类型" }]
 }
+
+
+export const item_type_options = [
+  { label: "零件", value: 1 },
+  { label: "装配", value: 2 }
+]

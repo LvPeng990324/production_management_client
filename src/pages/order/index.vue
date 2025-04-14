@@ -3,7 +3,8 @@ import type { CreateOrUpdateItemTableRequestData } from "@@/apis/items/type"
 import type { CreateOrUpdateTableRequestData, TableData } from "@@/apis/orders/type"
 import type { FormInstance, FormRules } from "element-plus"
 import { get_costomer_select_option_list } from "@@/apis/fetch_select_options"
-import { DEFAULT_ITEM_FORM_DATA, itemFormRules } from "@@/apis/items/type"
+import { createItemDataApi, updateItemDataApi } from "@@/apis/items"
+import { DEFAULT_ITEM_FORM_DATA, item_type_options, itemFormRules } from "@@/apis/items/type"
 import { createOrderDataApi, deleteOrderDataApi, getOrderDataApi, updateOrderDataApi } from "@@/apis/orders"
 import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
@@ -55,6 +56,23 @@ function handleOrderCreateOrUpdate() {
     api(orderFormData.value).then(() => {
       ElMessage.success("操作成功")
       orderDialogVisible.value = false
+      getTableData()
+    }).finally(() => {
+      loading.value = false
+    })
+  })
+}
+function handleItemCreateOrUpdate() {
+  itemFormRef.value?.validate((valid) => {
+    if (!valid) {
+      ElMessage.error("表单校验不通过")
+      return
+    }
+    loading.value = true
+    const api = itemFormData.value.item_id === 0 ? createItemDataApi : updateItemDataApi
+    api(itemFormData.value).then(() => {
+      ElMessage.success("操作成功")
+      itemDialogVisible.value = false
       getTableData()
     }).finally(() => {
       loading.value = false
@@ -183,10 +201,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                     <el-table-column label="单价" prop="sell_price" align="center" />
                     <el-table-column label="总价" prop="total_sell_price" align="center" />
                   </el-table-column>
-                  <el-table-column label="付款" align="center">
-                    <el-table-column label="付款1" prop="pay_money_1" align="center" />
-                    <el-table-column label="付款2" prop="pay_money_2" align="center" />
-                  </el-table-column>
                   <el-table-column label="收货" align="center">
                     <el-table-column label="收货1" prop="receive_goods_date_1" align="center" />
                     <el-table-column label="收货2" prop="receive_goods_date_2" align="center" />
@@ -232,6 +246,9 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
                 <template #dropdown>
                   <el-button type="primary" text bg size="small" @click="handleOrderUpdate(scope.row)">
                     修改
+                  </el-button>
+                  <el-button type="primary" text bg size="small" @click="itemDialogVisible = true;itemFormData.item_id = 0;itemFormData.order_id = scope.row.order_id">
+                    新增物品
                   </el-button>
                   <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">
                     删除
@@ -312,15 +329,30 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       @closed="resetForm"
     >
       <el-form ref="itemFormRef" :model="itemFormData" :rules="itemFormRules" label-width="100px" label-position="left">
-        <el-form-item prop="name" label="名称">
+        <el-form-item prop="name" label="名字">
           <el-input v-model="itemFormData.name" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="item_type_value" label="类型">
+          <el-select-v2 v-model="itemFormData.item_type_value" :options="item_type_options" filterable clearable placeholder="请选择" />
+        </el-form-item>
+        <el-form-item prop="num" label="数量">
+          <el-input v-model="itemFormData.num" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="cost" label="成本">
+          <el-input v-model="itemFormData.cost" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="sell_price" label="单价">
+          <el-input v-model="itemFormData.sell_price" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="model" label="型号">
+          <el-input v-model="itemFormData.model" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="orderDialogVisible = false">
           取消
         </el-button>
-        <el-button type="primary" :loading="loading" @click="handleOrderCreateOrUpdate">
+        <el-button type="primary" :loading="loading" @click="handleItemCreateOrUpdate">
           确认
         </el-button>
       </template>
