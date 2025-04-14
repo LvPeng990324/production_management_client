@@ -2,7 +2,7 @@
 import type { CreateOrUpdateItemTableRequestData } from "@@/apis/items/type"
 import type { CreateOrUpdateTableRequestData, TableData } from "@@/apis/orders/type"
 import type { FormInstance, FormRules } from "element-plus"
-import { get_costomer_select_option_list } from "@@/apis/fetch_select_options"
+import { get_costomer_select_option_list, get_supplier_select_option_list } from "@@/apis/fetch_select_options"
 import { createItemDataApi, updateItemDataApi } from "@@/apis/items"
 import { DEFAULT_ITEM_FORM_DATA, item_type_options, itemFormRules } from "@@/apis/items/type"
 import { createOrderDataApi, deleteOrderDataApi, getOrderDataApi, updateOrderDataApi } from "@@/apis/orders"
@@ -18,6 +18,9 @@ defineOptions({
 
 const { options: customer_options } = useFetchSelect({
   api: get_costomer_select_option_list
+})
+const { options: supplier_options } = useFetchSelect({
+  api: get_supplier_select_option_list
 })
 
 const loading = ref<boolean>(false)
@@ -324,7 +327,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
     <!-- 新增/修改物品 -->
     <el-dialog
       v-model="itemDialogVisible"
-      :title="itemFormData.order_id === 0 ? '新增物品' : '修改物品'"
+      :title="itemFormData.item_id === 0 ? '新增物品' : '修改物品'"
       width="50%"
       @closed="resetForm"
     >
@@ -346,6 +349,15 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="model" label="型号">
           <el-input v-model="itemFormData.model" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="supplier_id" label="供应商" v-if="itemFormData.item_type_value === 1">
+          <el-select-v2 v-model="itemFormData.supplier_id" :options="supplier_options" filterable clearable placeholder="请选择" />
+        </el-form-item>
+        <el-form-item prop="contract_number" label="合同号" v-if="itemFormData.item_type_value === 1">
+          <el-input v-model="itemFormData.contract_number" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item prop="contract_number" label="发票(待做)" v-if="itemFormData.item_type_value === 1">
+          <el-input v-model="itemFormData.contract_number" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <template #footer>
