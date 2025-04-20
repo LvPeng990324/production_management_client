@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { CreateOrUpdateItemTableRequestData, ItemTableData } from "@@/apis/items/type"
-import type { FormInstance, FormRules } from "element-plus"
+import type { FormInstance } from "element-plus"
 import { get_inspection_code_select_option_list, get_item_select_option_list, get_order_select_option_list, get_supplier_select_option_list } from "@@/apis/fetch_select_options"
 import { createItemDataApi, deleteItemDataApi, getItemDataApi, updateItemDataApi } from "@@/apis/items"
 import { DEFAULT_ITEM_FORM_DATA, item_type_options, itemFormRules } from "@@/apis/items/type"
