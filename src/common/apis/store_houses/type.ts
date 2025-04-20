@@ -6,6 +6,12 @@ export interface StoreHouseTableRequestData {
   name: string
 }
 
+export interface InStoreHouseRequestData {
+  contract_number: ""
+  item_number: ""
+  in_store_count: 0
+}
+
 export interface StoreHouseTableData {
   store_house_id: number
   remain_count: number

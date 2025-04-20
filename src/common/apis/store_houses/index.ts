@@ -9,3 +9,12 @@ export function getStoreHouseDataApi(params: Tables.StoreHouseTableRequestData) 
     params
   })
 }
+
+/** 入库 */
+export function inStoreHouseDataApi(data: Tables.InStoreHouseRequestData) {
+  return request<Tables.StoreHouseTableResponseData>({
+    url: "store-house/in-store/",
+    method: "post",
+    data
+  })
+}

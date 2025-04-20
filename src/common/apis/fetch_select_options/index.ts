@@ -50,3 +50,26 @@ export function get_supplier_select_option_list() {
     }))
   })
 }
+
+/** 获取合同号选择列表 */
+export function get_contract_number_select_option_list() {
+  return new Promise<ApiResponseData<SelectOption[]>>((resolve) => {
+    resolve(request({
+      url: "item/get-contract-number-select-list/",
+      method: "get"
+    }))
+  })
+}
+
+/** 获取图号选择列表 */
+export function get_item_number_select_option_list(contract_number: string) {
+  return new Promise<ApiResponseData<SelectOption[]>>((resolve) => {
+    resolve(request({
+      url: "item/get-item-number-select-list/",
+      method: "get",
+      params: {
+        contract_number
+      }
+    }))
+  })
+}
