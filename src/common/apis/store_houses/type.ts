@@ -12,6 +12,12 @@ export interface InStoreHouseRequestData {
   in_store_count: 0
 }
 
+export interface OutStoreHouseRequestData {
+  contract_number: ""
+  item_number: ""
+  out_store_count: 0
+}
+
 export interface StoreHouseTableData {
   store_house_id: number
   remain_count: number

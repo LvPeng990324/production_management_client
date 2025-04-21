@@ -46,6 +46,9 @@ function createInstance() {
         case 2:
           ElMessage.error(apiData.data.message || "鉴权错误")
           return Promise.reject(new Error("Error"))
+        case 3:
+          ElMessage.error(apiData.data.message || "逻辑错误")
+          return Promise.reject(new Error("Error"))
         case 401:
           // Token 过期时
           ElMessage.error(apiData.data.message || "Token过期")
