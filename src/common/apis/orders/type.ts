@@ -38,8 +38,6 @@ export interface TableData {
   collect_money_1: number
   collect_money_2: number
   collect_money_3: number
-  pay_money_1: number
-  pay_money_2: number
   receive_goods_date_1: string
   receive_goods_date_2: string
   send_goods_date_1: string

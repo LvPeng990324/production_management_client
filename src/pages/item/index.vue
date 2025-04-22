@@ -182,8 +182,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           <el-table-column prop="packing_number" label="箱单号" align="center" />
           <el-table-column prop="contract_number" label="合同号" align="center" />
           <el-table-column prop="supplier_name" label="供应商" align="center" />
-          <el-table-column prop="pay_money_1" label="付款1" align="center" />
-          <el-table-column prop="pay_money_2" label="付款2" align="center" />
           <el-table-column prop="receive_goods_date_1" label="收货1" align="center" />
           <el-table-column prop="receive_goods_date_2" label="收货2" align="center" />
           <el-table-column prop="send_goods_date_1" label="发货2" align="center" />
@@ -298,12 +296,6 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="supplier_id" label="供应商">
           <el-select-v2 v-model="formData.supplier_id" :options="supplier_options" filterable clearable placeholder="请选择" />
-        </el-form-item>
-        <el-form-item prop="pay_money_1" label="付款1">
-          <el-input v-model="formData.pay_money_1" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="pay_money_2" label="付款2">
-          <el-input v-model="formData.pay_money_2" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="receive_goods_date_1" label="收货1">
           <el-input v-model="formData.receive_goods_date_1" placeholder="请输入" />

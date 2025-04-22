@@ -26,8 +26,6 @@ export interface CreateOrUpdateItemTableRequestData {
   paint_type: string
   color_number: string
   packing_number: string
-  pay_money_1: number
-  pay_money_2: number
   receive_goods_date_1: string
   receive_goods_date_2: string
   send_goods_date_1: string
@@ -74,8 +72,6 @@ export interface ItemTableData {
   paint_type: string
   color_number: string
   packing_number: string
-  pay_money_1: number
-  pay_money_2: number
   receive_goods_date_1: string
   receive_goods_date_2: string
   send_goods_date_1: string
@@ -119,8 +115,6 @@ export const DEFAULT_ITEM_FORM_DATA: CreateOrUpdateItemTableRequestData = {
   paint_type: "",
   color_number: "",
   packing_number: "",
-  pay_money_1: 0,
-  pay_money_2: 0,
   receive_goods_date_1: "",
   receive_goods_date_2: "",
   send_goods_date_1: "",
