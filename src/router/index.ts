@@ -219,7 +219,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "purchase-requirement",
-        component: () => import("@/pages/purchase/index.vue"),
+        component: () => import("@/pages/purchase/purchase_requirement.vue"),
         name: "PurchaseRequirement",
         meta: {
           title: "采购需求",
