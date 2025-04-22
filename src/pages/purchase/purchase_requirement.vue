@@ -5,7 +5,7 @@ import { get_item_select_option_list } from "@@/apis/fetch_select_options"
 import { createPurchaseRequirementDataApi, getPurchaseRequirementDataApi, updatePurchaseRequirementDataApi } from "@@/apis/purchase"
 import { useFetchSelect } from "@@/composables/useFetchSelect"
 import { usePagination } from "@@/composables/usePagination"
-import { CirclePlus, Delete, Download, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
+import { CirclePlus, Download, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
 import { cloneDeep } from "lodash-es"
 
 defineOptions({
