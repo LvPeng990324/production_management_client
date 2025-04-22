@@ -218,9 +218,9 @@ export const constantRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: "purchase-demands",
+        path: "purchase-requirement",
         component: () => import("@/pages/purchase/index.vue"),
-        name: "PurchaseDemands",
+        name: "PurchaseRequirement",
         meta: {
           title: "采购需求",
           svgIcon: "purchase"
