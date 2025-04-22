@@ -35,7 +35,8 @@ const DEFAULT_ORDER_FORM_DATA: CreateOrUpdateTableRequestData = {
   collect_money_1: 0,
   collect_money_2: 0,
   collect_money_3: 0,
-  customer_id: undefined
+  customer_id: undefined,
+  pay_method: ""
 }
 const orderDialogVisible = ref<boolean>(false)
 const itemDialogVisible = ref<boolean>(false)
@@ -239,6 +240,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
           </el-table-column>
           <el-table-column prop="delivery_date" label="交货时间" align="center" />
           <el-table-column prop="customer_name" label="客户" align="center" />
+          <el-table-column prop="pay_method" label="付款方式" align="center" />
           <el-table-column prop="worker_name" label="录入人" align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
@@ -303,6 +305,13 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="customer_id" label="客户">
           <el-select-v2 v-model="orderFormData.customer_id" :options="customer_options" filterable clearable placeholder="请选择" />
+        </el-form-item>
+        <el-form-item prop="pay_method" label="付款方式">
+          <el-select v-model="orderFormData.pay_method" placeholder="请选择">
+            <el-option value="现金" label="现金" />
+            <el-option value="电汇" label="电汇" />
+            <el-option value="承兑" label="承兑" />
+          </el-select>
         </el-form-item>
         <el-form-item prop="collect_money_1" label="收款1">
           <el-input v-model="orderFormData.collect_money_1" placeholder="请输入" />
