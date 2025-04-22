@@ -140,11 +140,29 @@ export const constantRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: "financial",
+        path: "collect-money",
         component: () => import("@/pages/financial/index.vue"),
-        name: "FinancialManagement",
+        name: "CollectMoney",
         meta: {
-          title: "财务管理",
+          title: "收款",
+          svgIcon: "financial"
+        }
+      },
+      {
+        path: "pay-money",
+        component: () => import("@/pages/financial/index.vue"),
+        name: "PayMoney",
+        meta: {
+          title: "付款",
+          svgIcon: "financial"
+        }
+      },
+      {
+        path: "supplier-invoice",
+        component: () => import("@/pages/financial/index.vue"),
+        name: "SupplierInvoice",
+        meta: {
+          title: "供应商发票",
           svgIcon: "financial"
         }
       }
@@ -200,11 +218,20 @@ export const constantRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: "purchase",
+        path: "purchase-demands",
         component: () => import("@/pages/purchase/index.vue"),
-        name: "PurchaseManagement",
+        name: "PurchaseDemands",
         meta: {
-          title: "采购",
+          title: "采购需求",
+          svgIcon: "purchase"
+        }
+      },
+      {
+        path: "purchase-order",
+        component: () => import("@/pages/purchase/index.vue"),
+        name: "PurchaseOrder",
+        meta: {
+          title: "采购订单",
           svgIcon: "purchase"
         }
       }
