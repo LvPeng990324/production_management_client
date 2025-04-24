@@ -8,6 +8,11 @@ export interface CreateOrUpdateTableRequestData {
   collect_money_3: number
   customer_id?: number
   pay_method: string
+  pay_money_rate_1?: number
+  pay_money_rate_2?: number
+  pay_money_rate_3?: number
+  pay_money_rate_4?: number
+  pay_money_rate_5?: number
 }
 
 export interface TableRequestData {
@@ -46,6 +51,11 @@ export interface TableData {
   worker_name: string
   customer_name: string
   pay_method: string
+  pay_money_rate_1: number
+  pay_money_rate_2: number
+  pay_money_rate_3: number
+  pay_money_rate_4: number
+  pay_money_rate_5: number
 }
 
 export type TableResponseData = ApiResponseData<{

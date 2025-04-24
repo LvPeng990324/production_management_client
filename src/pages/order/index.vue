@@ -36,7 +36,12 @@ const DEFAULT_ORDER_FORM_DATA: CreateOrUpdateTableRequestData = {
   collect_money_2: 0,
   collect_money_3: 0,
   customer_id: undefined,
-  pay_method: ""
+  pay_method: "",
+  pay_money_rate_1: undefined,
+  pay_money_rate_2: undefined,
+  pay_money_rate_3: undefined,
+  pay_money_rate_4: undefined,
+  pay_money_rate_5: undefined
 }
 const orderDialogVisible = ref<boolean>(false)
 const itemDialogVisible = ref<boolean>(false)
@@ -324,11 +329,11 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
         <el-form-item prop="collect_money_3" label="付款比例">
           <div class="inline-input-group">
-          <el-input v-model="orderFormData.collect_money_3" placeholder="预付款" />
-          <el-input v-model="orderFormData.collect_money_3" placeholder="进度款" />
-          <el-input v-model="orderFormData.collect_money_3" placeholder="发货款" />
-          <el-input v-model="orderFormData.collect_money_3" placeholder="安装款" />
-          <el-input v-model="orderFormData.collect_money_3" placeholder="质保款" />
+            <el-input v-model="orderFormData.pay_money_rate_1" placeholder="预付款" />
+            <el-input v-model="orderFormData.pay_money_rate_2" placeholder="进度款" />
+            <el-input v-model="orderFormData.pay_money_rate_3" placeholder="发货款" />
+            <el-input v-model="orderFormData.pay_money_rate_4" placeholder="安装款" />
+            <el-input v-model="orderFormData.pay_money_rate_5" placeholder="质保款" />
           </div>
         </el-form-item>
       </el-form>
