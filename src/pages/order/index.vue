@@ -322,6 +322,15 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         <el-form-item prop="collect_money_3" label="收款3">
           <el-input v-model="orderFormData.collect_money_3" placeholder="请输入" />
         </el-form-item>
+        <el-form-item prop="collect_money_3" label="付款比例">
+          <div class="inline-input-group">
+          <el-input v-model="orderFormData.collect_money_3" placeholder="预付款" />
+          <el-input v-model="orderFormData.collect_money_3" placeholder="进度款" />
+          <el-input v-model="orderFormData.collect_money_3" placeholder="发货款" />
+          <el-input v-model="orderFormData.collect_money_3" placeholder="安装款" />
+          <el-input v-model="orderFormData.collect_money_3" placeholder="质保款" />
+          </div>
+        </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="orderDialogVisible = false">
@@ -406,5 +415,11 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
 .pager-wrapper {
   display: flex;
   justify-content: flex-end;
+}
+
+.inline-input-group {
+  display: flex;
+  gap: 0px; /* 控制输入框之间的间距 */
+  align-items: center; /* 垂直居中对齐 */
 }
 </style>
